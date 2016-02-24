@@ -116,8 +116,8 @@ end
   brands.each do |brand, data|
     puts "#{data[:name]}"
     puts "************************************"
-    puts "Count          |   #{data[:count]}" # It is ambiguous whether you are looking for the number of toys in each brand, or the stock
-    puts "Total Stock    |   #{data[:stock]}" # show the total stock of toys for each brand
+    puts "Count          |   #{data[:count]}" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
+    puts "Total Stock    |   #{data[:stock]}" # or the stock of toys for that brand
     puts "Average Price  |   $#{data[:average_price].round(2)}"
     puts "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
   end
