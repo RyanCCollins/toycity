@@ -4,7 +4,7 @@ file = File.read(path)
 products_hash = JSON.parse(file)
 
 # Easily calculate the percent difference by extending class numeric
-  # C'mon, I had do use a bit of the ruby OOP magib fot this project :)
+  # C'mon, I had do use a bit of the ruby OOP magic for this project :)
 class Numeric
   def percent_diff(n)
     (1 -self.to_f / n.to_f) * 100.0 
@@ -48,14 +48,15 @@ end
     # Unless purchases is 0, calculate the average
     unless purchases == 0
       average_price = total_sales / total_purchases
-      # Calculate the full price using the formula
+      # Calculate the full price using the formula defined
+        # in the class Numeric extension above
       discount = average_price.percent_diff(full_price)
     end
   
     puts "#{item["title"]}"
     puts "************************************"
-    puts "Full Price           |    $#{full_price}"
-    puts "Purchases            |    #{total_purchases}"
+    puts "Full Retail Price    |    $#{full_price}"
+    puts "Total Purchases      |    #{total_purchases}"
     puts "Total Sales          |    $#{total_sales}"
     puts "Average Price        |    $#{average_price}"
     puts "Percentage Discount  |    #{discount.round(2)}%"
@@ -111,6 +112,7 @@ end
     end
   end
   
+  #A For each brand in the hash, loop and print the results
   brands.each do |brand, data|
     puts "#{data[:name]}"
     puts "************************************"
