@@ -3,12 +3,16 @@ path = File.join(File.dirname(__FILE__), '../data/products.json')
 file = File.read(path)
 products_hash = JSON.parse(file)
 
-# Print today's date
-date = Time.new.localtime
-puts date
-
-# Store the JSON data as an array of items
-items = products_hash["items"]
+# Print the date in month, day, year format
+puts Time.now.strftime("%m/%d/%Y")
+puts "                     _            _       "
+puts "                    | |          | |      "
+puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
+puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
+puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
+puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
+puts "| |                                       "
+puts "|_|                                       "
 
 # For each product in the data set:
   # Print the name of the toy
@@ -18,102 +22,103 @@ items = products_hash["items"]
   # Calculate and print the average price the toy sold for
   # Calculate and print the average discount (% or $) based off the average sales price
 
-class Toy
-  # Define getter for title
-  attr_accessor :title
-  
-    # Initialize instance variables for the class
-    def initialize(item)
-      @title = item["title"]
-      @price = item["full-price"]
-      @purchases = item["purchases"]
-      @total_purchases = 0
-      @average_price = 0.0
-      @total_sales = 0.0
-      @average_discount = 0.0
-      @total_discount = 0.0
-      calculate_purchases
-    end
-  
-    def calculate_average_discount
-      # Only if the average price is less than the price,
-      # Calculate the average discount
-      if @average_price < @price 
-        @average_discount = @price - @average_price
-      end
-    end
-  
-  
-    def calculate_purchases
-      @purchases.each do |purchase|
-        @total_purchases += 1
-        @total_sales += purchase["price"]
-      end
-      @average_price = @total_sales / @total_purchases
-      calculate_average_discount
-    end
-  
+
+class Numeric # easily calculate the percent difference by extending class numeric
+  def percent_diff(n)
+    (1 -self.to_f / n.to_f) * 100.0 
   end
+end
 
-  class ReportGenerator
-    def initialize(items)
-      @items = items
-    end
-    
+# Label the items hash for easy reference
+items = products_hash["items"]
 
-        puts " _                         _     "
-	      puts "| |                       | |    "
-	      puts "| |__  _ __ __ _ _ __   __| |___ "
-	      puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
-	      puts "| |_) | | | (_| | | | | (_| \\__ \\"
-	      puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
-	      puts
-	 
-
-	    puts "##########################################"
-      puts "                     _            _       "
-      puts "                    | |          | |      "
-      puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
-      puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
-      puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
-      puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
-      puts "| |                                       "
-      puts "|_|                                       "
-      puts 
-      puts "##########################################"
+items.each do |item|
+  # Define and initialize our varaiables
+  purchases = item["purchases"]
+  total_purchases = purchases.length
+  full_price = item["full-price"].to_f
+  total_sales = 0
+  
+  # For each purchase, add to the total sales value.
+  purchases.each do |purchase|
+    total_sales += purchase["price"]
   end
   
-    def print_report
-      #print the product header
- 
-        print_product_header   
-    # For each item, print the details  
-      @items.each do |item|
-        some_toy = Toy.new(item)
-      
-        # Output the report
-        puts "#{some_toy.title}"
-        puts "******************************"
-        puts "Retail Price     |    $#{some_toy.price}"
-        puts "Total Purchase   |    #{some_toy.total_purchases}"
-        puts "Total Sales      |    $#{some_toy.total_sales}"
-        puts "Average Price    |    $#{some_toy.average_price}"
-        puts "Average Discount |    %#{some_toy.average_discount}"
-        puts "*******************************\r\n\r\n"
-      end
-    end
-    
-
-    
+  # Unless purchases is 0, calculate the average
+  unless purchases == 0
+    average_price = total_sales / total_purchases
+    # Calculate the full price using the formula
+    discount = average_price.percent_diff(full_price)
   end
-
-  Report = ReportGenerator.new(items)
-  Report.print_report
   
+  
+  puts "#{item["title"]}"
+  puts "************************************"
+  puts "Full Price           |    $#{full_price}"
+  puts "Purchases            |    #{total_purchases}"
+  puts "Total Sales          |    $#{total_sales}"
+  puts "Average Price        |    $#{average_price}"
+  puts "Percentage Discount  |    #{discount.round(2)}%"
+  puts "\n"
+end
 
+	puts " _                         _     "
+	puts "| |                       | |    "
+	puts "| |__  _ __ __ _ _ __   __| |___ "
+	puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+	puts "| |_) | | | (_| | | | | (_| \\__ \\"
+	puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+	puts
 
 # For each brand in the data set:
   # Print the name of the brand
   # Count and print the number of the brand's toys we stock
   # Calculate and print the average price of the brand's toys
   # Calculate and print the total revenue of all the brand's toy sales combined
+
+  brands = {}
+  
+  items.each do |item|
+    
+    brand_name = item["brand"]
+    
+    # Remove the the brand name and add the toy title
+    product_name = item["title"].split(' ')[1..-1].join(' ')
+    price = item["full_price"]
+  
+    total_sales = item["purchases"].length
+    stock = item["stock"]
+    
+    # Loop through the purchases and add them up to calculate total_revenue
+    total_revenue = 0
+    item["purchases"].each { |a| total_revenue += a["price"] }
+
+    #If the brand already exists, update the count and values
+    unless brands[brand_name]
+      brands[brand_name] = {}
+      brands[brand_name][:name] = brand_name
+      brands[brand_name][:total_sales] = total_sales
+      brands[brand_name][:count] = 1
+      brands[brand_name][:average_price] = total_revenue / total_sales
+      brands[brand_name][:total_revenue] = total_revenue
+      brands[brand_name][:stock] = stock
+    else
+      brands[brand_name][:count] += 1
+      brands[brand_name][:total_sales] += total_sales
+      brands[brand_name][:total_revenue] += total_revenue
+      brands[brand_name][:average_price] = brands[brand_name][:total_revenue] / brands[brand_name][:total_sales]
+      brands[brand_name][:stock] += stock
+    end
+  end
+  
+  brands.each do |brand, data|
+    puts "#{data[:name]}"
+    puts "************************************"
+    puts "Count          |   #{data[:count]}" # It is ambiguous whether you are looking for the number of toys in each brand, or the stock
+    puts "Total Stock    |   #{data[:stock]}" # show the total stock of toys for each brand
+    puts "Average Price  |   $#{data[:average_price].round(2)}"
+    puts "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
+  end
+  
+
+
