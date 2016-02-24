@@ -3,16 +3,24 @@ path = File.join(File.dirname(__FILE__), '../data/products.json')
 file = File.read(path)
 products_hash = JSON.parse(file)
 
-# Print the date in month, day, year format
-puts Time.now.strftime("%m/%d/%Y")
-puts "                     _            _       "
-puts "                    | |          | |      "
-puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
-puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
-puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
-puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
-puts "| |                                       "
-puts "|_|                                       "
+# Easily calculate the percent difference by extending class numeric
+  # C'mon, I had do use a bit of the ruby OOP magib fot this project :)
+class Numeric
+  def percent_diff(n)
+    (1 -self.to_f / n.to_f) * 100.0 
+  end
+end
+
+  # Print the date in month, day, year format
+  puts Time.now.strftime("%m/%d/%Y")
+  puts "                     _            _       "
+  puts "                    | |          | |      "
+  puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
+  puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
+  puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
+  puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
+  puts "| |                                       "
+  puts "|_|                                       "
 
 # For each product in the data set:
   # Print the name of the toy
@@ -22,45 +30,38 @@ puts "|_|                                       "
   # Calculate and print the average price the toy sold for
   # Calculate and print the average discount (% or $) based off the average sales price
 
+  # Label the items hash for easy reference
+  items = products_hash["items"] 
 
-class Numeric # easily calculate the percent difference by extending class numeric
-  def percent_diff(n)
-    (1 -self.to_f / n.to_f) * 100.0 
+  items.each do |item|
+    # Define and initialize our varaiables
+    purchases = item["purchases"]
+    total_purchases = purchases.length
+    full_price = item["full-price"].to_f
+    total_sales = 0
+  
+    # For each purchase, add to the total sales value.
+    purchases.each do |purchase|
+      total_sales += purchase["price"]
+    end
+  
+    # Unless purchases is 0, calculate the average
+    unless purchases == 0
+      average_price = total_sales / total_purchases
+      # Calculate the full price using the formula
+      discount = average_price.percent_diff(full_price)
+    end
+  
+    puts "#{item["title"]}"
+    puts "************************************"
+    puts "Full Price           |    $#{full_price}"
+    puts "Purchases            |    #{total_purchases}"
+    puts "Total Sales          |    $#{total_sales}"
+    puts "Average Price        |    $#{average_price}"
+    puts "Percentage Discount  |    #{discount.round(2)}%"
+    puts "\n"
   end
-end
 
-# Label the items hash for easy reference
-items = products_hash["items"]
-
-items.each do |item|
-  # Define and initialize our varaiables
-  purchases = item["purchases"]
-  total_purchases = purchases.length
-  full_price = item["full-price"].to_f
-  total_sales = 0
-  
-  # For each purchase, add to the total sales value.
-  purchases.each do |purchase|
-    total_sales += purchase["price"]
-  end
-  
-  # Unless purchases is 0, calculate the average
-  unless purchases == 0
-    average_price = total_sales / total_purchases
-    # Calculate the full price using the formula
-    discount = average_price.percent_diff(full_price)
-  end
-  
-  
-  puts "#{item["title"]}"
-  puts "************************************"
-  puts "Full Price           |    $#{full_price}"
-  puts "Purchases            |    #{total_purchases}"
-  puts "Total Sales          |    $#{total_sales}"
-  puts "Average Price        |    $#{average_price}"
-  puts "Percentage Discount  |    #{discount.round(2)}%"
-  puts "\n"
-end
 
 	puts " _                         _     "
 	puts "| |                       | |    "
@@ -79,7 +80,6 @@ end
   brands = {}
   
   items.each do |item|
-    
     brand_name = item["brand"]
     
     # Remove the the brand name and add the toy title
@@ -119,6 +119,3 @@ end
     puts "Average Price  |   $#{data[:average_price].round(2)}"
     puts "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
   end
-  
-
-
