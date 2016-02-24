@@ -60,17 +60,17 @@ end
     puts "Total Sales          |    $#{total_sales}"
     puts "Average Price        |    $#{average_price}"
     puts "Percentage Discount  |    #{discount.round(2)}%"
-    puts "\n"
+    puts "\n" # New Line
   end
 
 
-	puts " _                         _     "
-	puts "| |                       | |    "
-	puts "| |__  _ __ __ _ _ __   __| |___ "
-	puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
-	puts "| |_) | | | (_| | | | | (_| \\__ \\"
-	puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
-	puts
+  puts " _                         _     "
+  puts "| |                       | |    "
+  puts "| |__  _ __ __ _ _ __   __| |___ "
+  puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+  puts "| |_) | | | (_| | | | | (_| \\__ \\"
+  puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+  puts
 
 # For each brand in the data set:
   # Print the name of the brand
