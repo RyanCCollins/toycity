@@ -11,16 +11,17 @@ class Numeric
   end
 end
 
-  # Print the date in month, day, year format
-  puts Time.now.strftime("%m/%d/%Y")
-  puts "                     _            _       "
-  puts "                    | |          | |      "
-  puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
-  puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
-  puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
-  puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
-  puts "| |                                       "
-  puts "|_|                                       "
+# Print the date in month, day, year format
+  # and the Products header
+puts Time.now.strftime("%m/%d/%Y")
+puts "                     _            _       "
+puts "                    | |          | |      "
+puts " _ __  _ __ ___   __| |_   _  ___| |_ ___ "
+puts "| '_ \\| '__/ _ \\ / _` | | | |/ __| __/ __|"
+puts "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\"
+puts "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/"
+puts "| |                                       "
+puts "|_|                                       "
 
 # For each product in the data set:
   # Print the name of the toy
@@ -63,14 +64,14 @@ end
     puts "\n" # New Line
   end
 
-
-  puts " _                         _     "
-  puts "| |                       | |    "
-  puts "| |__  _ __ __ _ _ __   __| |___ "
-  puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
-  puts "| |_) | | | (_| | | | | (_| \\__ \\"
-  puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
-  puts
+# Print the Brands header
+puts " _                         _     "
+puts "| |                       | |    "
+puts "| |__  _ __ __ _ _ __   __| |___ "
+puts "| '_ \\| '__/ _` | '_ \\ / _` / __|"
+puts "| |_) | | | (_| | | | | (_| \\__ \\"
+puts "|_.__/|_|  \\__,_|_| |_|\\__,_|___/"
+puts
 
 # For each brand in the data set:
   # Print the name of the brand
@@ -94,7 +95,7 @@ end
     total_revenue = 0
     item["purchases"].each { |a| total_revenue += a["price"] }
 
-    #If the brand already exists, update the count and values
+    #Unless the brand already exists, initialize a new item
     unless brands[brand_name]
       brands[brand_name] = {}
       brands[brand_name][:name] = brand_name
@@ -104,6 +105,7 @@ end
       brands[brand_name][:total_revenue] = total_revenue
       brands[brand_name][:stock] = stock
     else
+      # If the brand already exists, update the items
       brands[brand_name][:count] += 1
       brands[brand_name][:total_sales] += total_sales
       brands[brand_name][:total_revenue] += total_revenue
