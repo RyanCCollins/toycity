@@ -46,8 +46,8 @@ puts "|_|                                       "
       total_sales += purchase["price"]
     end
   
-    # Unless purchases is 0, calculate the average
-    unless purchases == 0
+    # Unless total_purchases is 0, calculate the average
+    unless total_purchases == 0
       average_price = total_sales / total_purchases
       # Calculate the full price using the formula defined
         # in the class Numeric extension above
@@ -123,3 +123,4 @@ puts
     puts "Average Price  |   $#{data[:average_price].round(2)}"
     puts "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
   end
+
