@@ -53,66 +53,20 @@ def brand_header
   return header
 end
 
-
-
-
-def set_options!(options)
-  $report[:options] = options
+def generate_product_section(product) #Takes an product hash and prints the contents
+    output = product_header
+    output += "#{item.title}"
+    output += "************************************"
+    output += "Full Retail Price    |    $#{item.full_price}"
+    output += "Total Purchases      |    #{item.total_purchases}"
+    output += "Total Sales          |    $#{item.total_sales}"
+    output +=  "Average Price        |    $#{item.average_price}"
+    output += "Percentage Discount  |    #{item.discount.round(2)}%"
+    output += "\n" # New Line
+    return output
 end
 
-def create_report
-  print_data
-end
-
-def print_data
-  if $report[:options][:products] == true
-    $output += make_headings('products')
-    $output += make_products_section
-  end
-  if $report[:options][:brands] == true
-    $output += make_headings('brands')
-    $output += make_brand_section
-  end
-end
-
-# Return headings as long as the option to print headings is on
-def make_headings(section)
-  if should_make_headings?
-    if section == 'products'
-      return product_header
-    end
-    if section == 'brands'
-      return brand_header
-    end
-  end
-end
-
-# If the headings option is set, then return true.
-def should_make_headings?
-  return $report[:options][:headings]
-end
-
-# For each product in the data set:
-  # Print the name of the toy
-  # Print the retail price of the toy
-  # Calculate and print the total number of purchases
-  # Calculate and print the total amount of sales
-  # Calculate and print the average price the toy sold for
-  # Calculate and print the average discount (% or $) based off the average sales price
-def make_products_section
-  $items.each do |item|
-    output += construct_product(item)
-  end
-  return output
-end
-
-# Output the report to the file specified in target
-  # Defined with ! because it is overwriting a file
-def output_report!(output)
-  File.open($report_file) { |file| file.write(output)}
-end
-
-def construct_product(item)
+def parse_product(item)
     # Define and initialize our varaiables
     $report[:products][item][:title] = item["title"]
     $report[:products][item][:purchases] = item["purchases"]
@@ -137,18 +91,33 @@ def construct_product(item)
     return generate_product_section($report[:products][item])
 end
 
-def generate_product_section(product) #Takes an product hash and prints the contents
-    output = product_header
-    output += "#{item.title}"
-    output += "************************************"
-    output += "Full Retail Price    |    $#{item.full_price}"
-    output += "Total Purchases      |    #{item.total_purchases}"
-    output += "Total Sales          |    $#{item.total_sales}"
-    output +=  "Average Price        |    $#{item.average_price}"
-    output += "Percentage Discount  |    #{item.discount.round(2)}%"
-    output += "\n" # New Line
-    return output
+# For each product in the data set:
+  # Print the name of the toy
+  # Print the retail price of the toy
+  # Calculate and print the total number of purchases
+  # Calculate and print the total amount of sales
+  # Calculate and print the average price the toy sold for
+  # Calculate and print the average discount (% or $) based off the average sales price
+def make_products_section
+  $items.each do |item|
+    output += parse_product(item)
+  end
+  return output
 end
+
+def generate_brand_section(brands)
+    #For each brand in the hash, loop and print the results
+  brands.each do |brand, data|
+    output = "#{data[:name]}"
+    output += "************************************"
+    output += "Count          |   #{data[:count]}" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
+    output += "Total Stock    |   #{data[:stock]}" # or the stock of toys for that brand
+    output += "Average Price  |   $#{data[:average_price].round(2)}"
+    output += "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
+  end
+  return output
+end
+
 
 def make_brand_section
   # For each brand in the data set:
@@ -190,19 +159,55 @@ def make_brand_section
   return generate_brand_section($report[:brands])
 end
 
+# Return headings as long as the option to print headings is on
+def make_headings(section)
+  if should_make_headings?
+    if section == 'report'
+      return report_header
+    end
+    if section == 'products'
+      return product_header
+    end
+    if section == 'brands'
+      return brand_header
+    end
+  end
+  return "" # Return an empty string if no conditions are hit
+end
 
+# If the headings option is set, then return true.
+def should_make_headings?
+  return $report[:options][:headings]
+end
 
-def generate_brand_section(brands)
-    #For each brand in the hash, loop and print the results
-  brands.each do |brand, data|
-    output = "#{data[:name]}"
-    output += "************************************"
-    output += "Count          |   #{data[:count]}" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
-    output += "Total Stock    |   #{data[:stock]}" # or the stock of toys for that brand
-    output += "Average Price  |   $#{data[:average_price].round(2)}"
-    output += "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
+def print_data
+  output = ""
+  output += make_headings('report')
+  if $report[:options][:products] == true
+    output += make_headings('products')
+    output += make_products_section
+  end
+  if $report[:options][:brands] == true
+    output += make_headings('brands')
+    output += make_brand_section
   end
   return output
+end
+
+# Output the report to the file specified in target
+  # Defined with ! because it is overwriting a file
+def output_report!(output)
+  File.open($report_file) { |file| file.write(output)}
+end
+
+def create_report
+  output_report!(print_data)
+end
+
+# Set the options for the report when starting
+  # Defaults to true for each item
+def set_options!(options = {:products => true, :brands => true, :headings => true })
+  $report[:options] = options
 end
 
 # Get path to products.json, read the file into a string,
@@ -215,13 +220,15 @@ def setup_files
     
   # Label the items hash for easy reference
   $items = $products_hash["items"]
+  # Store the "Report" hash globally
   $report = {:products => [], :brands => {}, :options => {}}
 end
 
 # Start the program running
 def start
   # You can use this to set options for the report.
-  # Set products, brands and headings as boolean values
+    # Set products, brands and headings as boolean values
+    # Defaults to true for each
   set_options!({:products => true, :brands => true, :headings => true })
   setup_files
   create_report
