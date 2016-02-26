@@ -9,7 +9,7 @@ end
 
 
 # Print the date in month, day, year format
-# and the Products header
+  # and the Products header
 def product_header
   header = date_now +
   "\n" +
@@ -21,13 +21,27 @@ def product_header
   "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/\n" +
   "| |                                       \n" +
   "|_|                                       \n"
-  return header
+  return header # I know you don't have to call return, but I think it's easier to read.
 end
 
+# Return the date now in standard format
 def date_now
   return Time.now.strftime("%m/%d/%Y")
 end
 
+
+# Print "Sales Report" in ascii art
+  # (Note): Will return then print in the print_data method
+def report_header
+  header = "____  ____  _     _____ ____    ____  _____ ____  ____  ____  _____\n" +
+           "/ ___\/  _ \/ \   /  __// ___\  /  __\/  __//  __\/  _ \/  __\/__ __\\n"+
+           "|    \| / \|| |   |  \  |    \  |  \/||  \  |  \/|| / \||  \/|  / \\n" +
+           "\___ || |-||| |_/\|  /_ \___ |  |    /|  /_ |  __/| \_/||    /  | |\n" +
+           "\____/\_/ \|\____/\____\\____/  \_/\_\\____\\_/   \____/\_/\_\  \_/ \n" 
+  return header
+end
+
+# Print "Brands" in ascii art
 def brand_header
   # Return the Brands header
   header = " _                         _     \n" +
@@ -39,29 +53,10 @@ def brand_header
   return header
 end
 
-# Get path to products.json, read the file into a string,
-# and transform the string into a usable hash
-def setup_files
-    path = File.join(File.dirname(__FILE__), '../data/products.json')
-    file = File.read(path)
-    $products_hash = JSON.parse(file) # Defined in global scope
-    $report_file = File.new("report.txt", "w+") # Defined report file in global scope
-    
-    # Label the items hash for easy reference
-    $items = $products_hash["items"]
-    $report = {:products => [], :brands => {}, :options => {}}
-end
 
-def start
-  # You can use this to set options for the report.
-  # Set products, brands
-  set_options({:products => true, :brands => true, :headings => true })
-  setup_files
-  create_report
-  puts $report
-end
 
-def set_options(options)
+
+def set_options!(options)
   $report[:options] = options
 end
 
@@ -80,9 +75,9 @@ def print_data
   end
 end
 
+# Return headings as long as the option to print headings is on
 def make_headings(section)
   if should_make_headings?
-    # Print headings as long as there are products and brands
     if section == 'products'
       return product_header
     end
@@ -105,11 +100,16 @@ end
   # Calculate and print the average price the toy sold for
   # Calculate and print the average discount (% or $) based off the average sales price
 def make_products_section
-  products = Array.new()
   $items.each do |item|
-   products.push(construct_product(item))
+    output += construct_product(item)
   end
-  return products.to_s
+  return output
+end
+
+# Output the report to the file specified in target
+  # Defined with ! because it is overwriting a file
+def output_report!(output)
+  File.open($report_file) { |file| file.write(output)}
 end
 
 def construct_product(item)
@@ -134,9 +134,10 @@ def construct_product(item)
         # in the class Numeric extension above
       $report[:products][item][:discount] = $report[:products][item][:average_price].percent_diff($report[:products][item][:full_price])
     end
+    return generate_product_section($report[:products][item])
 end
 
-def generate_product_section(item) #Takes an item hash and prints the contents
+def generate_product_section(product) #Takes an product hash and prints the contents
     output = product_header
     output += "#{item.title}"
     output += "************************************"
@@ -158,9 +159,6 @@ def make_brand_section
 
   $items.each do |item|
     brand_name = item["brand"]
-    
-    # Remove the the brand name and add the toy title
-
     price = item["full_price"]
   
     total_sales = item["purchases"].length
@@ -170,7 +168,7 @@ def make_brand_section
     total_revenue = 0
     item["purchases"].each { |a| total_revenue += a["price"] }
 
-    #Unless the brand already exists, initialize a new item
+    #Unless the brand already exists in the hash, initialize a new item
     unless $report[:brands][brand_name]
       $report[:brands][brand_name][:name] = brand_name
       $report[:brands][brand_name][:product_name] = item["title"].split(' ')[1..-1].join(' ')
@@ -189,6 +187,7 @@ def make_brand_section
     end
   end
   
+  return generate_brand_section($report[:brands])
 end
 
 
@@ -204,6 +203,28 @@ def generate_brand_section(brands)
     output += "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
   end
   return output
+end
+
+# Get path to products.json, read the file into a string,
+# and transform the string into a usable hash
+def setup_files
+  path = File.join(File.dirname(__FILE__), '../data/products.json')
+  file = File.read(path)
+  $products_hash = JSON.parse(file) # Defined in global scope
+  $report_file = File.new("report.txt", "w+") # Defined report file in global scope
+    
+  # Label the items hash for easy reference
+  $items = $products_hash["items"]
+  $report = {:products => [], :brands => {}, :options => {}}
+end
+
+# Start the program running
+def start
+  # You can use this to set options for the report.
+  # Set products, brands and headings as boolean values
+  set_options!({:products => true, :brands => true, :headings => true })
+  setup_files
+  create_report
 end
 
 start
