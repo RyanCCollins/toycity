@@ -66,29 +66,29 @@ def generate_product_section(product) #Takes an product hash and prints the cont
     return output
 end
 
-def parse_product(item)
+def parse_product(item, report)
     # Define and initialize our varaiables
-    $report[:products][item][:title] = item["title"]
-    $report[:products][item][:purchases] = item["purchases"]
-    $report[:products][item][:total_purchases] = item["purchases"].length
-    $report[:products][item][:full_price] = item["full-price"].to_f
+    report[:products][item][:title] = item["title"]
+    report[:products][item][:purchases] = item["purchases"]
+    report[:products][item][:total_purchases] = item["purchases"].length
+    report[:products][item][:full_price] = item["full-price"].to_f
     total_sales = 0
     
     # For each purchase, add to the total sales value.
-    $report[:products][item][:purchases].each do |purchase|
+    report[:products][item][:purchases].each do |purchase|
       total_sales += purchase["price"]
     end
     
-    $report[:products][item][:total_sales] = total_sales
+    report[:products][item][:total_sales] = total_sales
     
     # Unless total_purchases is 0, calculate the average
-    unless $report[:products][item][:total_purchases] == 0
-      $report[:products][item][:average_price] = total_sales / $report[:products][item][:total_purchases]
+    unless report[:products][item][:total_purchases] == 0
+      report[:products][item][:average_price] = total_sales / report[:products][item][:total_purchases]
       # Calculate the full price using the formula defined
         # in the class Numeric extension above
-      $report[:products][item][:discount] = $report[:products][item][:average_price].percent_diff($report[:products][item][:full_price])
+      report[:products][item][:discount] = report[:products][item][:average_price].percent_diff(report[:products][item][:full_price])
     end
-    return generate_product_section($report[:products][item])
+  return report
 end
 
 # For each product in the data set:
@@ -100,7 +100,7 @@ end
   # Calculate and print the average discount (% or $) based off the average sales price
 def make_products_section
   $items.each do |item|
-    output += parse_product(item)
+    output += 
   end
   return output
 end
@@ -119,16 +119,13 @@ def generate_brand_section(brands)
 end
 
 
-def make_brand_section
-  # For each brand in the data set:
-  # Print the name of the brand
-  # Count and print the number of the brand's toys we stock
-  # Calculate and print the average price of the brand's toys
-  # Calculate and print the total revenue of all the brand's toy sales combined
-
-  $items.each do |item|
+def generate_report_data(items)
+  report = {:products => [], :brands => {}}
+  items.each do |item|
+    
+    report[:products].push(parse_product(item, report))
+    
     brand_name = item["brand"]
-    price = item["full_price"]
   
     total_sales = item["purchases"].length
     stock = item["stock"]
@@ -138,25 +135,24 @@ def make_brand_section
     item["purchases"].each { |a| total_revenue += a["price"] }
 
     #Unless the brand already exists in the hash, initialize a new item
-    unless $report[:brands][brand_name]
-      $report[:brands][brand_name][:name] = brand_name
-      $report[:brands][brand_name][:product_name] = item["title"].split(' ')[1..-1].join(' ')
-      $report[:brands][brand_name][:total_sales] = total_sales
-      $report[:brands][brand_name][:count] = 1
-      $report[:brands][brand_name][:average_price] = total_revenue / total_sales
-      $report[:brands][brand_name][:total_revenue] = total_revenue
-      $report[:brands][brand_name][:stock] = stock
+    unless report[:brands][brand_name]
+      report[:brands][brand_name][:name] = brand_name
+      report[:brands][brand_name][:product_name] = item["title"].split(' ')[1..-1].join(' ')
+      report[:brands][brand_name][:total_sales] = total_sales
+      report[:brands][brand_name][:count] = 1
+      report[:brands][brand_name][:average_price] = total_revenue / total_sales
+      report[:brands][brand_name][:total_revenue] = total_revenue
+      report[:brands][brand_name][:stock] = stock
     else
       # If the brand already exists, update the items
-      $report[:brands][brand_name][:count] += 1
-      $report[:brands][brand_name][:total_sales] += total_sales
-      $report[:brands][brand_name][:total_revenue] += total_revenue
-      $report[:brands][brand_name][:average_price] = brands[brand_name][:total_revenue] / brands[brand_name][:total_sales]
-      $report[:brands][brand_name][:stock] += stock
+      report[:brands][brand_name][:count] += 1
+      report[:brands][brand_name][:total_sales] += total_sales
+      report[:brands][brand_name][:total_revenue] += total_revenue
+      report[:brands][brand_name][:average_price] = report[:brands][brand_name][:total_revenue] / report[:brands][brand_name][:total_sales]
+      report[:brands][brand_name][:stock] += stock
     end
   end
-  
-  return generate_brand_section($report[:brands])
+    
 end
 
 # Return headings as long as the option to print headings is on
@@ -177,7 +173,7 @@ end
 
 # If the headings option is set, then return true.
 def should_make_headings?
-  return $report[:options][:headings]
+  return $options[:headings]
 end
 
 def print_data
@@ -191,6 +187,7 @@ def print_data
     output += make_headings('brands')
     output += make_brand_section
   end
+  puts output
   return output
 end
 
@@ -200,16 +197,10 @@ def output_report!(output)
   File.open($report_file) { |file| file.write(output)}
 end
 
-def create_report
+def create_report!(options = {:products => true, :brands => true, :headings => true })
+  $options = options
   output_report!(print_data)
 end
-
-# Set the options for the report when starting
-  # Defaults to true for each item
-def set_options!(options = {:products => true, :brands => true, :headings => true })
-  $report[:options] = options
-end
-
 # Get path to products.json, read the file into a string,
 # and transform the string into a usable hash
 def setup_files
@@ -220,8 +211,8 @@ def setup_files
     
   # Label the items hash for easy reference
   $items = $products_hash["items"]
-  # Store the "Report" hash globally
-  $report = {:products => [], :brands => {}, :options => {}}
+  # Store the "options" hash globally
+  $options = {}
 end
 
 # Start the program running
@@ -229,9 +220,8 @@ def start
   # You can use this to set options for the report.
     # Set products, brands and headings as boolean values
     # Defaults to true for each
-  set_options!({:products => true, :brands => true, :headings => true })
   setup_files
-  create_report
+  create_report!({:products => true, :brands => true, :headings => true })
 end
 
 start
