@@ -7,13 +7,6 @@ class Numeric
   end
 end
 
-# Note, I included this in order to fill the requirements of
-# Using semantic methods.  I realize that there are builtin methods for doing this.
-class String 
-  def is_empty? 
-    return self.length == 0
-  end
-end
 
 # Print the date in month, day, year format
 # and the Products header
@@ -56,13 +49,20 @@ def setup_files
     
     # Label the items hash for easy reference
     $items = $products_hash["items"]
-    puts $items
+    $report = {:products => [], :brands => {}, :options => {}}
 end
 
 def start
-  $report = {:products => [], :brands => {}, :options => {products: true, brands: true}}
+  # You can use this to set options for the report.
+  # Set products, brands
+  set_options({:products => true, :brands => true, :headings => true })
   setup_files
   create_report
+  puts $report
+end
+
+def set_options(options)
+  $report[:options] = options
 end
 
 def create_report
@@ -70,22 +70,31 @@ def create_report
 end
 
 def print_data
-  make_products_section
-  make_brand_section
+  if $report[:options][:products] == true
+    $output += make_headings('products')
+    $output += make_products_section
+  end
+  if $report[:options][:brands] == true
+    $output += make_headings('brands')
+    $output += make_brand_section
+  end
 end
 
-def make_headings(options)
-  output = ""
-  if options[:products] == true
-    output += product_header
+def make_headings(section)
+  if should_make_headings?
+    # Print headings as long as there are products and brands
+    if section == 'products'
+      return product_header
+    end
+    if section == 'brands'
+      return brand_header
+    end
   end
-  if options[:brands] == true
-    output += brand_header
-  end
-  
-  unless output.is_empty?
-    return output
-  end
+end
+
+# If the headings option is set, then return true.
+def should_make_headings?
+  return $report[:options][:headings]
 end
 
 # For each product in the data set:
@@ -96,34 +105,35 @@ end
   # Calculate and print the average price the toy sold for
   # Calculate and print the average discount (% or $) based off the average sales price
 def make_products_section
+  products = Array.new()
   $items.each do |item|
-    $report[:products].push(construct_product(item))
+   products.push(construct_product(item))
   end
+  return products.to_s
 end
 
 def construct_product(item)
     # Define and initialize our varaiables
-    product = Hash.new()
-    product[:title] = item["title"]
-    product[:total_purchases] = item["purchases"].length
-    product[:full_price] = item["full-price"].to_f
+    $report[:products][item][:title] = item["title"]
+    $report[:products][item][:purchases] = item["purchases"]
+    $report[:products][item][:total_purchases] = item["purchases"].length
+    $report[:products][item][:full_price] = item["full-price"].to_f
     total_sales = 0
     
     # For each purchase, add to the total sales value.
-    product[:purchases].each do |purchase|
+    $report[:products][item][:purchases].each do |purchase|
       total_sales += purchase["price"]
     end
     
-    product[:total_sales] = total_sales
+    $report[:products][item][:total_sales] = total_sales
     
     # Unless total_purchases is 0, calculate the average
-    unless product[:total_purchases] == 0
-      product[:average_price] = total_sales / product[:total_purchases]
+    unless $report[:products][item][:total_purchases] == 0
+      $report[:products][item][:average_price] = total_sales / $report[:products][item][:total_purchases]
       # Calculate the full price using the formula defined
         # in the class Numeric extension above
-      product[:discount] = product[:average_price].percent_diff(full_price)
+      $report[:products][item][:discount] = $report[:products][item][:average_price].percent_diff($report[:products][item][:full_price])
     end
-    return product
 end
 
 def generate_product_section(item) #Takes an item hash and prints the contents
@@ -161,9 +171,9 @@ def make_brand_section
     item["purchases"].each { |a| total_revenue += a["price"] }
 
     #Unless the brand already exists, initialize a new item
-    unless brands[brand_name]
+    unless $report[:brands][brand_name]
       $report[:brands][brand_name][:name] = brand_name
-      $report[:product_name][brand_name][:product_name] = item["title"].split(' ')[1..-1].join(' ')
+      $report[:brands][brand_name][:product_name] = item["title"].split(' ')[1..-1].join(' ')
       $report[:brands][brand_name][:total_sales] = total_sales
       $report[:brands][brand_name][:count] = 1
       $report[:brands][brand_name][:average_price] = total_revenue / total_sales
@@ -195,8 +205,5 @@ def generate_brand_section(brands)
   end
   return output
 end
-
-
-
 
 start
