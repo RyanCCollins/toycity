@@ -3,7 +3,7 @@ require 'json'
 # Easily calculate the percent difference by extending class numeric
 class Numeric
   def percent_diff(n)
-    (1 -self.to_f / n.to_f) * 100.0 
+    ((1 -self.to_f / n.to_f) * 100.0).round(2)
   end
 end
 
@@ -87,7 +87,7 @@ def make_products_section(report)
     output += "Total Purchases      |    #{product[:total_purchases]}\n"
     output += "Total Sales          |    $#{product[:total_sales]}\n"
     output +=  "Average Price        |    $#{product[:average_price]}\n"
-    output += "Percentage Discount  |    #{product[:discount].round(2)}%"
+    output += "Percentage Discount  |    #{product[:discount]}%"
     output += "\n" # New Line
   end
   return output # Again, no need to call return, but makes the intention clear
@@ -103,12 +103,13 @@ def make_brand_section(report)
   brands = report[:brands]
   output = ""
   brands.each do |brand|
+    puts brand
     output += "\n"
     output += "#{brand[:name]}\n"
     output += "************************************\n"
     output += "Count          |   #{brand[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
     output += "Total Stock    |   #{brand[:stock]}\n" # or the stock of toys for that brand
-    output += "Average Price  |   $#{brand[:average_price].round(2)}\n"
+    output += "Average Price  |   $#{brand[:average_price].round(2)}\n" # Call round(2) here to make sure that it prints with only 2 characters.
     output += "Total Revenue  |   $#{brand[:total_revenue].round(2)}\n\r"
     output += "\n"
   end
@@ -122,9 +123,15 @@ def parse_product(item)
   product = {}
   purchases = item["purchases"]
   product[:title] = item["title"]
+  # Although we are not actually printing the purchases, I am still storing them in the hash
+    # in case we want to do something else with them.
   product[:purchases] = purchases
   product[:total_purchases] = item["purchases"].length
   product[:full_price] = item["full-price"].to_f
+  
+  # Initialize these variables as 0 so that they are not nil
+  product[:average_price] = 0.0
+  product[:discount] = 0.0
   total_sales = 0
   
   # For each purchase, add to the total sales value.
@@ -135,26 +142,35 @@ def parse_product(item)
   product[:total_sales] = total_sales
     
   # If total_purchases is not 0, calculate the average price and average_discount
-  product[:total_purchases] != 0 ? product[:average_price] = total_sales / product[:total_purchases] : 0
-  # Calculate the full price using the formula defined
-    # in the class Numeric extension above.
-  product[:total_purchases] != 0 ? product[:discount] = product[:average_price].percent_diff(product[:full_price]) : 0
+    # NOTE: I did use ternary operators here, but it got messy and that is not the ruby way.
+  unless product[:total_purchases] == 0
+    product[:average_price] = total_sales / product[:total_purchases]
+    product[:discount] = product[:average_price].percent_diff(product[:full_price])
+  end
   return product
 end
 
-def parse_brand(item, report)
+# Take the original items and parse them into a usable 
+  # Hash that will get returned and pushed onto the report Hash.
+def parse_brand(item)
   brand = {}
   # Loop through the purchases and add them up to calculate total_revenue
-  total_revenue = 0
+  total_revenue = 0.0
+  
   item["purchases"].each { |a| total_revenue += a["price"] }
   
   # Build and return a brand hash
   brand[:name] = item["brand"]
+  
   brand[:total_sales] = item["purchases"].length
-  brand[:total_revenue] = total_revenue
+  brand[:total_revenue] = total_revenue.round(2)
   brand[:count] = 1
-  brand[:average_price] = total_revenue / item["purchases"].length
   brand[:stock] = item["stock"]
+  # Check for no purchases.
+  unless item["purchases"] == nil
+    brand[:average_price] = total_revenue / item["purchases"].length
+  end
+  
   return brand
 end
 
@@ -167,7 +183,7 @@ def update_brand!(report, item)
     if brand[:name] == item["brand"]
       brand[:count] += 1
       brand[:total_sales] += item["purchases"].length
-      brand[:total_revenue] += total_revenue
+      brand[:total_revenue] += total_revenue.round(2)
       brand[:average_price] = brand[:total_revenue] / brand[:total_sales]
       brand[:stock] += item["stock"]
     end
@@ -189,13 +205,12 @@ def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
     report[:products].push(parse_product(item))
-    
     # Unless the brand exists, parse it.
     unless brand_exists?(item["brand"], report)
       # Then push it into the brands array.  I know you can use << but I think push is more widely recognizable.
-      report[:brands].push(parse_brand(item, report))
+      report[:brands].push(parse_brand(item))
     else
-      # Update the brand if it exists.
+      # Update the brand if it exists and return the report.
       report = update_brand!(report, item)
     end
   end
