@@ -15,7 +15,6 @@ end
 # Construct headers for the various sections
 def product_header
   header = "\n" +
-  "\n" +
   "                     _            _       \n" +
   "                    | |          | |      \n"  +
   " _ __  _ __ ___   __| |_   _  ___| |_ ___ \n" +
@@ -23,14 +22,16 @@ def product_header
   "| |_) | | | (_) | (_| | |_| | (__| |_\\__ \\\n" +
   "| .__/|_|  \\___/ \\__,_|\\__,_|\\___|\\__|___/\n" +
   "| |                                       \n" +
-  "|_|                                       \n"
+  "|_|                                       \n" +
+  "\n"
   return header # I know you don't have to call return, but I think it's easier to read.
 end
 
 # Print "Sales Report" in ascii art
   # (Note): Will return then print in the print_data method
 def report_header
-  header = "" + "\n" + date_now + "\n" +
+  header = "\n" +
+    "" + "\n" + date_now + "\n" +
     " _______  _______  _        _______  _______  \n" + 
     "(  ____ \(  ___  )( \      (  ____ \(  ____ \ \n" +
     "| (    \/| (   ) || (      | (    \/| (    \/ \n" +
@@ -56,7 +57,8 @@ end
 # Returns "Brands" in ascii art
 def brand_header
   # Return the Brands header
-  header = " _                         _     \n" +
+  header = "\n" +
+  " _                         _     \n" +
   "| |                       | |    \n" +
   "| |__  _ __ __ _ _ __   __| |___ \n" +
   "| '_ \\| '__/ _` | '_ \\ / _` / __|\n" +
@@ -77,6 +79,7 @@ def make_products_section(report)
   products = report[:products]
   output = ""
   products.each do |product|
+    output += "\n" # Print a new line before just to make sure there is no overlap
     output += "#{product[:title]}\n"
     output += "************************************\n"
     output += "Full Retail Price    |    $#{product[:full_price]}\n"
@@ -168,6 +171,7 @@ def make_brand_section(report)
   brands = report[:brands]
   output = ""
   brands.each do |brand|
+    output += "\n"
     output += "#{brand[:name]}\n"
     output += "************************************\n"
     output += "Count          |   #{brand[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
@@ -230,15 +234,20 @@ end
 
 # Output the report to the file specified in target
   # Defined with ! because it is overwriting a file
-def output_report!(output)
-  $report_file.write(output)
-  puts output
+def output_report!(output, options)
+  if options[:print_to_file]
+    $report_file.write(output)
+  end
+  if options[:print_to_terminal]
+    puts output
+  end
 end
 
-def create_report!(items, options = {:products => true, :brands => true, :headings => true })
+def create_report!(items, options = {:products => true, :brands => true, :headings => true, 
+                                                            :print_to_terminal => true, :print_to_file => true })
   $options = options #Set the global options value.
   report = generate_report_data(items)
-  output_report!(compile_output(report))
+  output_report!(compile_output(report), options)
 end
 
 # Get path to products.json, read the file into a string,
@@ -257,11 +266,15 @@ end
 
 # Start the program running
 def start
-  # You can use this to set options for the report.
-    # Set products, brands and headings as boolean values
-    # Defaults to true for each
   setup_files
-  create_report!($items)
+  # You can set report options, such as whether to print products
+    # brands and report headings.  Also you can set whether to print to
+    # file, terminal or both.  If nothing is set, it will default to true for everything.
+    # NOTE: I left the options hash here, so you can play with each option and try it.
+    # but normally, I'd leave it blank and just let the default values kickin.
+  options = {:products => true, :brands => true, :headings => true, 
+                                    :print_to_terminal => true, :print_to_file => true }
+  create_report!($items, options)
 end
 
 start
