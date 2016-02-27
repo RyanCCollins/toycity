@@ -7,7 +7,7 @@ class Numeric
   end
 end
 
-# Return the date now in standard format
+# Return the date in standard mm/dd/yyyy format
 def date_now
   return Time.now.strftime("%m/%d/%Y")
 end
@@ -66,6 +66,13 @@ def brand_header
 end
 
 #Takes a report array returns output of the products
+# For each product in the data set:
+  # Print the name of the toy
+  # Print the retail price of the toy
+  # Calculate and print the total number of purchases
+  # Calculate and print the total amount of sales
+  # Calculate and print the average price the toy sold for
+  # Calculate and print the average discount (% or $) based off the average sales price
 def make_products_section(report)
   products = report[:products]
   output = ""
@@ -79,12 +86,13 @@ def make_products_section(report)
     output += "Percentage Discount  |    #{product[:discount].round(2)}%"
     output += "\n" # New Line
   end
-  return output
+  return output # Again, no need to call return, but makes the intention clear
 end
 
 # Parse the product data and return it in usable format
 def parse_product(item)
-  # Define and initialize our varaiables
+  # Construct the product hash and return it
+    # Initialize a few rogue local variables to help make things more clear.
   product = {}
   purchases = item["purchases"]
   product[:title] = item["title"]
@@ -100,12 +108,11 @@ def parse_product(item)
     
   product[:total_sales] = total_sales
     
-  # Unless total_purchases is 0, calculate the average and discount
+  # If total_purchases is not 0, calculate the average price and average_discount
   product[:total_purchases] != 0 ? product[:average_price] = total_sales / product[:total_purchases] : 0
   # Calculate the full price using the formula defined
     # in the class Numeric extension above.
   product[:total_purchases] != 0 ? product[:discount] = product[:average_price].percent_diff(product[:full_price]) : 0
-  
   return product
 end
 
@@ -114,7 +121,8 @@ def parse_brand(item, report)
   # Loop through the purchases and add them up to calculate total_revenue
   total_revenue = 0
   item["purchases"].each { |a| total_revenue += a["price"] }
-
+  
+  # Build and return a brand hash
   brand[:name] = item["brand"]
   brand[:total_sales] = item["purchases"].length
   brand[:total_revenue] = total_revenue
@@ -124,6 +132,8 @@ def parse_brand(item, report)
   return brand
 end
 
+# I chose to seperate out the update_brand method
+  # because it is desctructive in that it overwrites data
 def update_brand!(report, item)
   total_revenue = 0
   item["purchases"].each { |a| total_revenue += a["price"] }
@@ -147,14 +157,12 @@ def brand_exists?(brand_name, report)
   return false
 end
 
-# For each product in the data set:
-  # Print the name of the toy
-  # Print the retail price of the toy
-  # Calculate and print the total number of purchases
-  # Calculate and print the total amount of sales
-  # Calculate and print the average price the toy sold for
-  # Calculate and print the average discount (% or $) based off the average sales price
 
+# For each brand in the data set:
+	# Print the name of the brand
+	# Count and print the number of the brand's toys we stock
+	# Calculate and print the average price of the brand's toys
+	# Calculate and print the total sales volume of all the brand's toys combined
 def make_brand_section(report)
     #For each brand in the hash, loop and print the results
   brands = report[:brands]
@@ -224,6 +232,7 @@ end
   # Defined with ! because it is overwriting a file
 def output_report!(output)
   $report_file.write(output)
+  puts output
 end
 
 def create_report!(items, options = {:products => true, :brands => true, :headings => true })
@@ -233,7 +242,7 @@ def create_report!(items, options = {:products => true, :brands => true, :headin
 end
 
 # Get path to products.json, read the file into a string,
-# and transform the string into a usable hash
+  # and transform the string into a usable hash
 def setup_files
   path = File.join(File.dirname(__FILE__), '../data/products.json')
   file = File.read(path)
