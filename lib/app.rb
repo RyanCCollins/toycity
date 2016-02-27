@@ -14,7 +14,7 @@ end
 
 # Construct headers for the various sections
 def product_header
-  header = "\n" + date_now +
+  header = "\n" +
   "\n" +
   "                     _            _       \n" +
   "                    | |          | |      \n"  +
@@ -48,6 +48,7 @@ def report_header
     "| (\ (   | (      | (      | |   | || (\ (      | |    \n" +
     "| ) \ \__| (____/\| )      | (___) || ) \ \__   | |    \n" +
     "|/   \__/(_______/|/       (_______)|/   \__/   )_(    \n"
+    
     # I know that you don't need to call return, but I think it makes the intention more clear
     return header 
 end
@@ -83,29 +84,28 @@ end
 
 # Parse the product data and return it in usable format
 def parse_product(item)
-    # Define and initialize our varaiables
-    product = {}
-    purchases = item["purchases"]
-    product[:title] = item["title"]
-    product[:purchases] = purchases
-    product[:total_purchases] = item["purchases"].length
-    product[:full_price] = item["full-price"].to_f
-    total_sales = 0
+  # Define and initialize our varaiables
+  product = {}
+  purchases = item["purchases"]
+  product[:title] = item["title"]
+  product[:purchases] = purchases
+  product[:total_purchases] = item["purchases"].length
+  product[:full_price] = item["full-price"].to_f
+  total_sales = 0
+  
+  # For each purchase, add to the total sales value.
+  purchases.each do |purchase|
+    total_sales += purchase["price"]
+  end
     
-    # For each purchase, add to the total sales value.
-    purchases.each do |purchase|
-      total_sales += purchase["price"]
-    end
+  product[:total_sales] = total_sales
     
-    product[:total_sales] = total_sales
-    
-    # Unless total_purchases is 0, calculate the average
-    unless product[:total_purchases] == 0
-      product[:average_price] = total_sales / product[:total_purchases]
-      # Calculate the full price using the formula defined
-        # in the class Numeric extension above
-      product[:discount] = product[:average_price].percent_diff(product[:full_price])
-    end
+  # Unless total_purchases is 0, calculate the average and discount
+  product[:total_purchases] != 0 ? product[:average_price] = total_sales / product[:total_purchases] : 0
+  # Calculate the full price using the formula defined
+    # in the class Numeric extension above.
+  product[:total_purchases] != 0 ? product[:discount] = product[:average_price].percent_diff(product[:full_price]) : 0
+  
   return product
 end
 
@@ -128,7 +128,7 @@ def update_brand!(report, item)
   total_revenue = 0
   item["purchases"].each { |a| total_revenue += a["price"] }
   report[:brands].each do |brand|
-    if brand["name"] == item["name"]
+    if brand[:name] == item["brand"]
       brand[:count] += 1
       brand[:total_sales] += item["purchases"].length
       brand[:total_revenue] += total_revenue
@@ -158,7 +158,6 @@ end
 def make_brand_section(report)
     #For each brand in the hash, loop and print the results
   brands = report[:brands]
-  puts brands
   output = ""
   brands.each do |brand|
     output += "#{brand[:name]}\n"
@@ -176,7 +175,6 @@ def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
     report[:products].push(parse_product(item))
-    
     unless brand_exists?(item["brand"], report)
       report[:brands].push(parse_brand(item, report))
     else
@@ -254,8 +252,7 @@ def start
     # Set products, brands and headings as boolean values
     # Defaults to true for each
   setup_files
-  create_report!($items, {:products => true, :brands => true, :headings => true })
+  create_report!($items)
 end
 
 start
-
