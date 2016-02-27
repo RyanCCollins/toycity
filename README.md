@@ -1,8 +1,16 @@
-# ToyCity Report Generator, Part 1
+# ToyCity Report Generator, Part 2
 
 ## Getting Started
 
 CD into the lib directory and run ruby app.rb from the terminal to see the report generation.
+You can set options in the start method to change the type of output.
+
+Options include:
+* print_products
+* print_brands
+* print_headings
+* output_to_file
+* output_to_terminal
 
 ### Installing
 

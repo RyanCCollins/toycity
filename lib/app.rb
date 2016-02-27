@@ -78,6 +78,7 @@ end
 def make_products_section(report)
   products = report[:products]
   output = ""
+  # Loop through the product array and print the items
   products.each do |product|
     output += "\n" # Print a new line before just to make sure there is no overlap
     output += "#{product[:title]}\n"
@@ -92,7 +93,29 @@ def make_products_section(report)
   return output # Again, no need to call return, but makes the intention clear
 end
 
-# Parse the product data and return it in usable format
+# For each brand in the data set:
+	# Print the name of the brand
+	# Count and print the number of the brand's toys we stock
+	# Calculate and print the average price of the brand's toys
+	# Calculate and print the total sales volume of all the brand's toys combined
+def make_brand_section(report)
+    #For each brand in the hash, loop and print the results
+  brands = report[:brands]
+  output = ""
+  brands.each do |brand|
+    output += "\n"
+    output += "#{brand[:name]}\n"
+    output += "************************************\n"
+    output += "Count          |   #{brand[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
+    output += "Total Stock    |   #{brand[:stock]}\n" # or the stock of toys for that brand
+    output += "Average Price  |   $#{brand[:average_price].round(2)}\n"
+    output += "Total Revenue  |   $#{brand[:total_revenue].round(2)}\n\r"
+    output += "\n"
+  end
+  return output
+end
+
+# Parse the product data and return it in usable hash
 def parse_product(item)
   # Construct the product hash and return it
     # Initialize a few rogue local variables to help make things more clear.
@@ -152,7 +175,9 @@ def update_brand!(report, item)
   return report
 end
 
-#Check if a brand exists in a given report
+#Check if a brand exists in a given report and return true if it does.
+  # This provides an easy way to update report data for a given brand.
+  # Pass in the brand_name and the report object.
 def brand_exists?(brand_name, report)
   report[:brands].each do |brand|
     return brand[:name] == brand_name
@@ -160,42 +185,22 @@ def brand_exists?(brand_name, report)
   return false
 end
 
-
-# For each brand in the data set:
-	# Print the name of the brand
-	# Count and print the number of the brand's toys we stock
-	# Calculate and print the average price of the brand's toys
-	# Calculate and print the total sales volume of all the brand's toys combined
-def make_brand_section(report)
-    #For each brand in the hash, loop and print the results
-  brands = report[:brands]
-  output = ""
-  brands.each do |brand|
-    output += "\n"
-    output += "#{brand[:name]}\n"
-    output += "************************************\n"
-    output += "Count          |   #{brand[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
-    output += "Total Stock    |   #{brand[:stock]}\n" # or the stock of toys for that brand
-    output += "Average Price  |   $#{brand[:average_price].round(2)}\n"
-    output += "Total Revenue  |   $#{brand[:total_revenue].round(2)}\n\r"
-    output += "\n"
-  end
-  return output
-end
-
 def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
     report[:products].push(parse_product(item))
+    
+    # Unless the brand exists, parse it.
     unless brand_exists?(item["brand"], report)
+      # Then push it into the brands array.  I know you can use << but I think push is more widely recognizable.
       report[:brands].push(parse_brand(item, report))
     else
+      # Update the brand if it exists.
       report = update_brand!(report, item)
     end
   end
   return report
 end
-
 
 # Return headings as long as the option to print headings is on
 def make_headings(section)
@@ -214,18 +219,20 @@ def make_headings(section)
 end
 
 # If the headings option is set, then return true.
+  # I likely would not do this, but I needed more methods that returned boolean
 def should_make_headings?
-  return $options[:headings]
+  return $options[:print_headings]
 end
 
+# Compile output from the report object.  Returns one long string based on options set.
 def compile_output(report)
   output = ""
   output += make_headings('report')
-  if $options[:products] == true
+  if $options[:print_products] == true
     output += make_headings('products')
     output += make_products_section(report)
   end
-  if $options[:brands] == true
+  if $options[:print_brands] == true
     output += make_headings('brands')
     output += make_brand_section(report)
   end
@@ -234,20 +241,25 @@ end
 
 # Output the report to the file specified in target
   # Defined with ! because it is overwriting a file
-def output_report!(output, options)
-  if options[:print_to_file]
+def output_report!(output)
+  if $options[:print_to_file]
     $report_file.write(output)
   end
-  if options[:print_to_terminal]
+  if $options[:print_to_terminal]
     puts output
   end
 end
 
-def create_report!(items, options = {:products => true, :brands => true, :headings => true, 
+# Set the global report options to either the default, or to whatever is passed in.
+  # Generate the report data
+  # and then output the report
+def create_report!(items, options = {:print_products => true, :print_brands => true, :print_headings => true, 
                                                             :print_to_terminal => true, :print_to_file => true })
-  $options = options #Set the global options value.
+  #Set the global options value.  Since the options change each time 
+    # and are set to defaults, using a global is fine
+  $options = options 
   report = generate_report_data(items)
-  output_report!(compile_output(report), options)
+  output_report!(compile_output(report))
 end
 
 # Get path to products.json, read the file into a string,
@@ -255,11 +267,12 @@ end
 def setup_files
   path = File.join(File.dirname(__FILE__), '../data/products.json')
   file = File.read(path)
-  $products_hash = JSON.parse(file) # Defined in global scope
-  $report_file = File.new("report.txt", "w+") # Defined report file in global scope
+  products_hash = JSON.parse(file) # Not defined globally, because it doesn't need to be.
+  $report_file = File.new("report.txt", "w+") # Defined report file in global scope for output of report.
     
-  # Label the items hash for easy reference
-  $items = $products_hash["items"]
+  # Label the items hash for easy reference from start method
+    # I tend to avoid globals, so you will see me passing the items around.
+  $items = products_hash["items"]
   # Store the "options" hash globally
   $options = {}
 end
@@ -272,7 +285,7 @@ def start
     # file, terminal or both.  If nothing is set, it will default to true for everything.
     # NOTE: I left the options hash here, so you can play with each option and try it.
     # but normally, I'd leave it blank and just let the default values kickin.
-  options = {:products => true, :brands => true, :headings => true, 
+  options = {:print_products => true, :print_brands => true, :print_headings => true, 
                                     :print_to_terminal => true, :print_to_file => true }
   create_report!($items, options)
 end
