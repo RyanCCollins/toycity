@@ -33,9 +33,9 @@ end
 # Print "Sales Report" in ascii art
   # (Note): Will return then print in the print_data method
 def report_header
-  header = "____  ____  _     _____ ____    ____  _____ ____  ____  ____  _____\n" +
-           "/ ___\/  _ \/ \   /  __// ___\  /  __\/  __//  __\/  _ \/  __\/__ __\\n"+
-           "|    \| / \|| |   |  \  |    \  |  \/||  \  |  \/|| / \||  \/|  / \\n" +
+  header = " ____  ____  _     _____ ____    ____  _____ ____  ____  ____  _____\n" +
+           "/ ___\/  _ \/ \   /  __// ___\  /  __\/  __//  __\/  _ \/  __\/__ __\ \n"+
+           "|    \| / \|| |   |  \  |    \  |  \/||  \  |  \/|| / \||  \/|  / \ \n" +
            "\___ || |-||| |_/\|  /_ \___ |  |    /|  /_ |  __/| \_/||    /  | |\n" +
            "\____/\_/ \|\____/\____\\____/  \_/\_\\____\\_/   \____/\_/\_\  \_/ \n" 
   return header
@@ -53,17 +53,21 @@ def brand_header
   return header
 end
 
-def generate_product_section(item) #Takes an product hash and output the contents
-    output = product_header
-    output += "#{item.title}\n"
-    output += "************************************"
-    output += "Full Retail Price    |    $#{item.full_price}\n"
-    output += "Total Purchases      |    #{item.total_purchases}\n"
-    output += "Total Sales          |    $#{item.total_sales}"
-    output +=  "Average Price        |    $#{item.average_price}"
-    output += "Percentage Discount  |    #{item.discount.round(2)}%"
+#Takes an product hash and output the contents
+def make_products_section(report)
+  products = report[:products]
+  output = ""
+  products.each do |product|
+    output += "#{product[:title]}\n"
+    output += "************************************\n"
+    output += "Full Retail Price    |    $#{product[:full_price]}\n"
+    output += "Total Purchases      |    #{product[:total_purchases]}\n"
+    output += "Total Sales          |    $#{product[:total_sales]}\n"
+    output +=  "Average Price        |    $#{product[:average_price]}\n"
+    output += "Percentage Discount  |    #{product[:discount].round(2)}%"
     output += "\n" # New Line
-    return output
+  end
+  return output
 end
 
 def parse_product(item)
@@ -107,8 +111,8 @@ def parse_brand(item, report)
   #Unless the brand already exists in the hash, initialize a new item
   unless brand_exists?(brand_name, report)
     brand[:name] = brand_name
-    brand[:product_name] = item["title"].split(' ')[1..-1].join(' ')
     brand[:total_sales] = total_sales
+    brand[:total_revenue] = total_revenue
     brand[:count] = 1
     brand[:average_price] = total_revenue / total_sales
     brand[:stock] = item["stock"]
@@ -138,19 +142,19 @@ end
   # Calculate and print the total amount of sales
   # Calculate and print the average price the toy sold for
   # Calculate and print the average discount (% or $) based off the average sales price
-def make_products_section
 
-end
-
-def generate_brand_section(brands)
+def make_brand_section(report)
     #For each brand in the hash, loop and print the results
-  brands.each do |brand, data|
-    output = "#{data[:name]}\n"
-    output += "************************************"
-    output += "Count          |   #{data[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
-    output += "Total Stock    |   #{data[:stock]}\n" # or the stock of toys for that brand
-    output += "Average Price  |   $#{data[:average_price].round(2)}\n"
-    output += "Total Revenue  |   $#{data[:total_revenue].round(2)}\n\r"
+  brands = report[:brands]
+  puts brands
+  output = ""
+  brands.each do |brand|
+    output += "#{brand[:name]}\n"
+    output += "************************************\n"
+    output += "Count          |   #{brand[:count]}\n" # It is ambiguous whether you are looking for the number of types of toys for the brand, 
+    output += "Total Stock    |   #{brand[:stock]}\n" # or the stock of toys for that brand
+    output += "Average Price  |   $#{brand[:average_price].round(2)}\n"
+    output += "Total Revenue  |   $#{brand[:total_revenue].round(2)}\n\r"
   end
   return output
 end
@@ -159,10 +163,8 @@ end
 def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
-    
     report[:products].push(parse_product(item))
     report[:brands].push(parse_brand(item, report))
-    puts report
   end
     return report
 end
@@ -188,16 +190,16 @@ def should_make_headings?
   return $options[:headings]
 end
 
-def print_data
+def compile_output(report)
   output = ""
   output += make_headings('report')
-  if $report[:options][:products] == true
+  if $options[:products] == true
     output += make_headings('products')
-    output += make_products_section
+    output += make_products_section(report)
   end
-  if $report[:options][:brands] == true
+  if $options[:brands] == true
     output += make_headings('brands')
-    output += make_brand_section
+    output += make_brand_section(report)
   end
   return output
 end
@@ -205,12 +207,13 @@ end
 # Output the report to the file specified in target
   # Defined with ! because it is overwriting a file
 def output_report!(output)
-  File.open($report_file) { |file| file.write(output)}
+  $report_file.write(output)
 end
 
 def create_report!(items, options = {:products => true, :brands => true, :headings => true })
-  $options = options
-  generate_report_data(items)
+  $options = options #Set the global options value.
+  report = generate_report_data(items)
+  output_report!(compile_output(report))
 end
 # Get path to products.json, read the file into a string,
 # and transform the string into a usable hash
@@ -236,3 +239,4 @@ def start
 end
 
 start
+
