@@ -5,6 +5,8 @@
 CD into the lib directory and run ruby app.rb from the terminal to see the report generation.
 You can set options in the start method to change the type of output.
 
+NOTE: the specifications say that there should be a log.text file, but I also read that it should be called report.txt.  I am going to stick with report.txt and hope that you understand.
+
 Options include:
 * print_products
 * print_brands
