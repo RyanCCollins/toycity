@@ -67,7 +67,7 @@ def brand_header
   return header
 end
 
-#Takes a report array returns output of the products
+#Takes a report hash returns output of the products
 # For each product in the data set:
   # Print the name of the toy
   # Print the retail price of the toy
@@ -103,7 +103,6 @@ def make_brand_section(report)
   brands = report[:brands]
   output = ""
   brands.each do |brand|
-    puts brand
     output += "\n"
     output += "#{brand[:name]}\n"
     output += "************************************\n"
@@ -118,7 +117,8 @@ end
 
 # Parse the product data and return it in usable hash
   # I understand that you wanted this to be shorter than 10 lines, but to me
-  # ruby looks messy if you drag lines out.  It is a clear and concise method that I do not feel should
+  # ruby looks messy if you drag lines out.  It is a clear and concise method 
+  # that acts to accomplish one thing and I do not feel should
   # be broken out any more.
 def parse_product(item)
   # Construct the product hash and return it
@@ -143,7 +143,6 @@ def parse_product(item)
   end
     
   product[:total_sales] = total_sales
-    
   # If total_purchases is not 0, calculate the average price and average_discount
     # NOTE: I did use ternary operators here, but it got messy and that is not the ruby way.
   unless product[:total_purchases] == 0
@@ -159,16 +158,15 @@ def parse_brand(item)
   brand = {}
   # Loop through the purchases and add them up to calculate total_revenue
   total_revenue = 0.0
-  
   item["purchases"].each { |a| total_revenue += a["price"] }
   
   # Build and return a brand hash
   brand[:name] = item["brand"]
-  
   brand[:total_sales] = item["purchases"].length
   brand[:total_revenue] = total_revenue
   brand[:count] = 1
   brand[:stock] = item["stock"]
+  
   # Check for no purchases.
   unless item["purchases"] == nil
     brand[:average_price] = total_revenue / item["purchases"].length
@@ -183,10 +181,11 @@ def update_brand!(report, item)
   total_revenue = 0
   item["purchases"].each { |a| total_revenue += a["price"] }
   report[:brands].each do |brand|
+    # If the brand name is a duplicate, update the values
     if brand[:name] == item["brand"]
       brand[:count] += 1
       brand[:total_sales] += item["purchases"].length
-      brand[:total_revenue] += total_revenue.round(2)
+      brand[:total_revenue] += total_revenue
       brand[:average_price] = brand[:total_revenue] / brand[:total_sales]
       brand[:stock] += item["stock"]
     end
@@ -204,6 +203,8 @@ def brand_exists?(brand_name, report)
   return false
 end
 
+# Generate the data for the entire report with
+  # The items parsed from the JSON file.
 def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
@@ -211,6 +212,7 @@ def generate_report_data(items)
     # Unless the brand exists, parse it.
     unless brand_exists?(item["brand"], report)
       # Then push it into the brands array.  I know you can use << but I think push is more widely recognizable.
+        # Maybe I will be more apt to use ruby magic once I have a better understanding of it.
       report[:brands].push(parse_brand(item))
     else
       # Update the brand if it exists and return the report.
@@ -245,6 +247,7 @@ end
 # Compile output from the report object.  Returns one long string based on options set.
 def compile_output(report)
   output = ""
+  # Make headings will return a blank string if the headings option is off.
   output += make_headings('report')
   if $options[:print_products] == true
     output += make_headings('products')
