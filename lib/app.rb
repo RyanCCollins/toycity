@@ -163,7 +163,7 @@ def parse_brand(item)
   brand[:name] = item["brand"]
   
   brand[:total_sales] = item["purchases"].length
-  brand[:total_revenue] = total_revenue.round(2)
+  brand[:total_revenue] = total_revenue
   brand[:count] = 1
   brand[:stock] = item["stock"]
   # Check for no purchases.
