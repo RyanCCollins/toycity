@@ -1,3 +1,83 @@
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+    * The README.md was not updated after merge of branch toycity/project2
+    * This commit will update it.
+    
+    See: https://github.com/udacity/rbnd-toycity-part2/blob/master/README.md
+
+commit 19a4f0d6b3823f630e4414c150d041620ec57c40
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:46:57 2016 +0000
+
+    Feat: comments to explain method length
+
+commit 5c16b23dbccd2437d61c54c24032094979a01feb
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:37:52 2016 +0000
+
+    Feat: add log.txt to top level with git logs
+
 commit 0b7d7b72766236a815abd5cb03658b44d8ce5048
 Author: Ryan Collins <techrapportrc@gmail.com>
 Date:   Sat Feb 27 17:28:42 2016 +0000
