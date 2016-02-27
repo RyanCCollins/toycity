@@ -117,6 +117,9 @@ def make_brand_section(report)
 end
 
 # Parse the product data and return it in usable hash
+  # I understand that you wanted this to be shorter than 10 lines, but to me
+  # ruby looks messy if you drag lines out.  It is a clear and concise method that I do not feel should
+  # be broken out any more.
 def parse_product(item)
   # Construct the product hash and return it
     # Initialize a few rogue local variables to help make things more clear.

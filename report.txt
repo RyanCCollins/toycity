@@ -32,10 +32,10 @@ _______)|/     |(_______/(_______/_______)
 LEGO Iron Man vs. Ultron
 ************************************
 Full Retail Price    |    $22.99
-Total Purchases      |    0
-Total Sales          |    $0
-Average Price        |    $0.0
-Percentage Discount  |    0.0%
+Total Purchases      |    2
+Total Sales          |    $36.98
+Average Price        |    $18.49
+Percentage Discount  |    19.57%
 
 Nano Block Empire State Building
 ************************************
@@ -64,8 +64,8 @@ LEGO
 ************************************
 Count          |   2
 Total Stock    |   55
-Average Price  |   $189.99
-Total Revenue  |   $379.98
+Average Price  |   $104.24
+Total Revenue  |   $416.96
 
 
 Nano Blocks
