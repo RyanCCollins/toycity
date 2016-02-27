@@ -7,11 +7,14 @@ class Numeric
   end
 end
 
+# Return the date now in standard format
+def date_now
+  return Time.now.strftime("%m/%d/%Y")
+end
 
-# Print the date in month, day, year format
-  # and the Products header
+# Construct headers for the various sections
 def product_header
-  header = date_now +
+  header = "\n" + date_now +
   "\n" +
   "                     _            _       \n" +
   "                    | |          | |      \n"  +
@@ -24,24 +27,32 @@ def product_header
   return header # I know you don't have to call return, but I think it's easier to read.
 end
 
-# Return the date now in standard format
-def date_now
-  return Time.now.strftime("%m/%d/%Y")
-end
-
-
 # Print "Sales Report" in ascii art
   # (Note): Will return then print in the print_data method
 def report_header
-  header = " ____  ____  _     _____ ____    ____  _____ ____  ____  ____  _____\n" +
-           "/ ___\/  _ \/ \   /  __// ___\  /  __\/  __//  __\/  _ \/  __\/__ __\ \n"+
-           "|    \| / \|| |   |  \  |    \  |  \/||  \  |  \/|| / \||  \/|  / \ \n" +
-           "\___ || |-||| |_/\|  /_ \___ |  |    /|  /_ |  __/| \_/||    /  | |\n" +
-           "\____/\_/ \|\____/\____\\____/  \_/\_\\____\\_/   \____/\_/\_\  \_/ \n" 
-  return header
+  header = "" + "\n" + date_now + "\n" +
+    " _______  _______  _        _______  _______  \n" + 
+    "(  ____ \(  ___  )( \      (  ____ \(  ____ \ \n" +
+    "| (    \/| (   ) || (      | (    \/| (    \/ \n" +
+    "| (_____ | (___) || |      | (__    | (_____  \n" +
+    "(_____  )|  ___  || |      |  __)   (_____  ) \n" +
+    "      ) || (   ) || |      | (            ) | \n" +
+    "/\____) || )   ( || (____/\| (____/\/\____) | \n" +
+    "\_______)|/     \|(_______/(_______/\_______) \n" +
+    "\n" +                                             
+    " _______  _______  _______  _______  _______ _________ \n" +
+    "(  ____ )(  ____ \(  ____ )(  ___  )(  ____ )\__   __/ \n" +
+    "| (    )|| (    \/| (    )|| (   ) || (    )|   ) (    \n" +
+    "| (____)|| (__    | (____)|| |   | || (____)|   | |    \n" +
+    "|     __)|  __)   |  _____)| |   | ||     __)   | |    \n" +
+    "| (\ (   | (      | (      | |   | || (\ (      | |    \n" +
+    "| ) \ \__| (____/\| )      | (___) || ) \ \__   | |    \n" +
+    "|/   \__/(_______/|/       (_______)|/   \__/   )_(    \n"
+    # I know that you don't need to call return, but I think it makes the intention more clear
+    return header 
 end
 
-# Print "Brands" in ascii art
+# Returns "Brands" in ascii art
 def brand_header
   # Return the Brands header
   header = " _                         _     \n" +
@@ -53,7 +64,7 @@ def brand_header
   return header
 end
 
-#Takes an product hash and output the contents
+#Takes a report array returns output of the products
 def make_products_section(report)
   products = report[:products]
   output = ""
@@ -70,6 +81,7 @@ def make_products_section(report)
   return output
 end
 
+# Parse the product data and return it in usable format
 def parse_product(item)
     # Define and initialize our varaiables
     product = {}
@@ -79,7 +91,6 @@ def parse_product(item)
     product[:total_purchases] = item["purchases"].length
     product[:full_price] = item["full-price"].to_f
     total_sales = 0
-    
     
     # For each purchase, add to the total sales value.
     purchases.each do |purchase|
@@ -100,37 +111,38 @@ end
 
 def parse_brand(item, report)
   brand = {}
-  brand_name = item["brand"]
-  
-  total_sales = item["purchases"].length
-    
   # Loop through the purchases and add them up to calculate total_revenue
   total_revenue = 0
   item["purchases"].each { |a| total_revenue += a["price"] }
 
-  #Unless the brand already exists in the hash, initialize a new item
-  unless brand_exists?(brand_name, report)
-    brand[:name] = brand_name
-    brand[:total_sales] = total_sales
-    brand[:total_revenue] = total_revenue
-    brand[:count] = 1
-    brand[:average_price] = total_revenue / total_sales
-    brand[:stock] = item["stock"]
-  else
-    # If the brand already exists, update the items
-    brand[:count] += 1
-    brand[:total_sales] += total_sales
-    brand[:total_revenue] += total_revenue
-    brand[:average_price] = brand[:total_revenue] / total_sales
-    brand[:stock] += stock
-  end
+  brand[:name] = item["brand"]
+  brand[:total_sales] = item["purchases"].length
+  brand[:total_revenue] = total_revenue
+  brand[:count] = 1
+  brand[:average_price] = total_revenue / item["purchases"].length
+  brand[:stock] = item["stock"]
   return brand
+end
+
+def update_brand!(report, item)
+  total_revenue = 0
+  item["purchases"].each { |a| total_revenue += a["price"] }
+  report[:brands].each do |brand|
+    if brand["name"] == item["name"]
+      brand[:count] += 1
+      brand[:total_sales] += item["purchases"].length
+      brand[:total_revenue] += total_revenue
+      brand[:average_price] = brand[:total_revenue] / brand[:total_sales]
+      brand[:stock] += item["stock"]
+    end
+  end
+  return report
 end
 
 #Check if a brand exists in a given report
 def brand_exists?(brand_name, report)
-  report[:brands].each do |brand| 
-    return brand[:brand_name] == brand_name ? true : false
+  report[:brands].each do |brand|
+    return brand[:name] == brand_name
   end
   return false
 end
@@ -155,19 +167,25 @@ def make_brand_section(report)
     output += "Total Stock    |   #{brand[:stock]}\n" # or the stock of toys for that brand
     output += "Average Price  |   $#{brand[:average_price].round(2)}\n"
     output += "Total Revenue  |   $#{brand[:total_revenue].round(2)}\n\r"
+    output += "\n"
   end
   return output
 end
-
 
 def generate_report_data(items)
   report = {:products => [], :brands => []}
   items.each do |item|
     report[:products].push(parse_product(item))
-    report[:brands].push(parse_brand(item, report))
+    
+    unless brand_exists?(item["brand"], report)
+      report[:brands].push(parse_brand(item, report))
+    else
+      report = update_brand!(report, item)
+    end
   end
-    return report
+  return report
 end
+
 
 # Return headings as long as the option to print headings is on
 def make_headings(section)
@@ -215,6 +233,7 @@ def create_report!(items, options = {:products => true, :brands => true, :headin
   report = generate_report_data(items)
   output_report!(compile_output(report))
 end
+
 # Get path to products.json, read the file into a string,
 # and transform the string into a usable hash
 def setup_files
