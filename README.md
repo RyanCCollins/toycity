@@ -1,59 +1,36 @@
-# ToyCity Report Generator, Part 2
-
-## Getting Started
-
-CD into the lib directory and run ruby app.rb from the terminal to see the report generation.
-You can set options in the start method to change the type of output.
-
-
-Options include:
-* print_products
-* print_brands
-* print_headings
-* output_to_file
-* output_to_terminal
-
-### Installing
-
-No installation necessary.
-
-
-## Built With
-
-* Ruby
-
-## Authors
-
-* **Ryan Collins**
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* A big thanks to the Ruby ND crew at Udacity for the course
+# ToyCity 3: Inventory Edition
 
 ## Project Overview
 
-Remember your boss in ToyCity Part 1? Well, they loved your sales report so much, they decided to surprise you with an extra special request.
+Great job generating the last few reports. Your boss was able to use the data you prepared for her to identify some problems with how the company was being run. And now, business is booming. In the short amount of time you've been learning Ruby, you've already added value at ToyCity. Keep it up.
 
-Your boss was also wondering if you could somehow package the code, so they can reuse pieces of it in future sales reports.
+She's got another project for you. After reviewing your reports, your boss has decided that the inventory system needs to be redone from the ground up.
 
-In this lesson, you are going use the new skills you've learned to refactor your ToyCity code from Part 1. You will restructure your code using methods, and output your reports to a file instead of the command line.
+Now, she knows that's a pretty big task, so all she's looking for right now is a proof of concept. Show her that you can use your new object-oriented skills to get a prototype up off the ground.
 
-You will also start using Git to track the changes you make to your project files.
+For this project, you'll be creating a way to keep track of product inventory, customer data, and transactions. These are the same types of problems you'll commonly be solving when working on a larger-scale web-app.
+
+## Why Does This Matter?
+
+Keeping large amounts of data organized is one of the number one challenges web developers address on a daily basis. The general organization of this project loosely reflects the structure of a tool called ActiveRecord, which is used frequently as a Ruby on Rails developer.
+
+As you work through this project, think about real-world parallels in web apps you may already be familiar with. How might they organize their data? Which objects might they have?
 
 ## Completing this Project
 
-You should have completed all the necessary steps for finishing this project in ToyCity Report Generator, Part 2. Before submitting, ensure your program does the following:
+You should have completed all the necessary steps for finishing this project in ToyCity 3: Inventory Edition. Before submitting, ensure your program returns the correct values for all sample data provided, including:
 
-* Outputs all the same data as ToyCity Part 1.
-* Outputs the properly formatted report to a `report.txt` file.
-* Uses methods to reduce code duplication and increase readability.
-* Is accompanied by a `log.txt` file containing your Git logs documenting your commit history (containing at least three meaningful commits).
+* Products, customers, and transactions initialize properly
+* Class methods for `all` and `find` (and its variants) work as expected for each class
+* Instance methods for products work as expected
+* Errors return when needed for each class
+* The `purchase` instance method for customers is properly implemented
 
-Remember, you should **not** modify any of the existing code we have provided for you.
+Additionally, the following requirements have been met:
+
+* The project is submitted using GitHub, with regular commits
+* A reflection has been included in the top level directory
+* Code follows proper style and naming conventions
 
 ## Submitting Your Project
 
@@ -62,5 +39,5 @@ Before submitting your project for evaluation, we recommend that you check that 
 * Your program runs without any errors
 * You are proud of your project and its output
 * You completed your project according to the instructions
-* You checked your project against the [rubric](https://docs.google.com/document/d/1TgOs3jLJp8TUP6ZIrujV4FkHFOvnek1T_OUz0-yW6jA/pub)
-* Create a zip file with your  For instructions on how to do this, click [here](https://docs.google.com/document/d/1jPCDXBuD4xV8PsGLa5K9Fpn_9lSCTrXeOWcUKQGnATU/pub?embedded=true). When you feel ready to submit, use the blue 'Submit Project' button below!
+* You checked your project against the [rubric](https://docs.google.com/document/d/1-zsHE1lwX81sekgRiPNZeJpXDu7e-WnDQImHWBCThS4/pub)
+* When you feel ready to submit, use the blue 'Submit Project' button below!
