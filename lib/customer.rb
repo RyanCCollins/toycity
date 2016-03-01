@@ -5,10 +5,16 @@ class Customer
   @@customers = []
 
 
-  def initialize(options ={})
+  def initialize(options = {})
     @name = options[:name]
     add_to_customers
   end
+
+  def purchase(product, options = {:quantity => 1}) # Set default quantity to 1
+    Transaction.new(self, product, options)
+  end
+
+  protected
 
   def self.find_by_name(name)
     @@customers.find {|customer| customer.name == name}
@@ -18,14 +24,10 @@ class Customer
     @@customers # Return the customer array
   end
 
-  def purchase(product, options ={:quantity => 1}) # Set default quantity to 1
-    Transaction.new(self, product, options)
-  end
-
   private
 
   def add_to_customers
-    if @@customers.find {| customer | customer.name == self.name }
+    if @@customers.find {|customer| customer.name == self.name }
       raise DuplicateNameError, "#{self.name} is already a customer."
     else
       @@customers << self

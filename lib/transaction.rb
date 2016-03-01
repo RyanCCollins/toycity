@@ -11,6 +11,7 @@ class Transaction
     @product = product
     product.remove_stock!(options[:quantity])
     @id = self.increment_transaction_id
+    add_to_transactions
   end
 
   def self.all
@@ -23,6 +24,7 @@ class Transaction
     @@transactions.find {|transaction| transaction.id == id }
   end
 
+  # Instead of calling self, I am using the protected keyword.
   protected
 
   def increment_transaction_id
