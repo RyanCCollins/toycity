@@ -9,19 +9,19 @@ Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
 Product.new(title: "Nano Block Empire State Building", price: 49.99, stock: 12)
 Product.new(title: "LEGO Firehouse Headquarter", price: 199.99, stock: 0)
 
-# puts Product.all.count # Should return 3
+puts Product.all.count # Should return 3
 
-# Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
+Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
 # Should return DuplicateProductError: 'LEGO Iron Man vs. Ultron' already exists.
 
-# nanoblock = Product.find_by_title("Nano Block Empire State Building")
-# firehouse = Product.find_by_title("LEGO Firehouse Headquarter")
+nanoblock = Product.find_by_title("Nano Block Empire State Building")
+firehouse = Product.find_by_title("LEGO Firehouse Headquarter")
 
-# puts nanoblock.title # Should return 'Nano Block Empire State Building'
-# puts nanoblock.price # Should return 49.99
-# puts nanoblock.stock # Should return 12
-# puts nanoblock.in_stock? # Should return true
-# puts firehouse.in_stock? # Should return false
+puts nanoblock.title # Should return 'Nano Block Empire State Building'
+puts nanoblock.price # Should return 49.99
+puts nanoblock.stock # Should return 12
+puts nanoblock.in_stock? # Should return true
+puts firehouse.in_stock? # Should return false
 
 # products_in_stock = Product.in_stock
 # Should return an array of all products with a stock greater than zero
