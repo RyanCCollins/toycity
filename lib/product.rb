@@ -23,26 +23,27 @@ class Product
     @stock > 0
   end
 
-  def find_by_title(title)
+  def self.find_by_title(title)
     @@products.find {|product| product.title == title}
   end
 
-  def remove_stock!(options={:quantity => 1})
-    @stock = @stock - options[:quantity]
+  def remove_stock!(quantity)
+    unless quantity > @stock || @stock == 0
+      @stock = @stock - quantity
+    else
+      raise OutOfStockError, "#{self.title} is out of stock."
+    end
   end
 
   private
 
   def add_to_products
-    unless product_exists?
+    unless @@products.find {|product| product.title == title}
       @@products << self
     else
       raise DuplicateProductError, "'#{self.title}'' already exists."
     end
   end
 
-  def product_exists?
-    return find_by_title(self.title)
-  end
 
 end
