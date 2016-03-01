@@ -27,8 +27,8 @@ class Product
     @@products.find {|product| product.title == title}
   end
 
-  def remove_stock!(options={})
-
+  def remove_stock!(options={:quantity => 1})
+    @stock = @stock - options[:quantity]
   end
 
   private
