@@ -8,9 +8,9 @@ class BankAccount
     @funds_available = funds
   end
 
-  # Takes an options hash and a password.  The option should be deposit or withdrawal.
-    # Set a default password for the purposes of demonstrating and set authenticated to true.
-  def make_transaction(options = {})
+  # Takes an options hash.  The option should be deposit or withdrawal.
+    # Set the amount of the transaction.
+  def make_transaction(options)
     type = options[:type]
     amount = options[:amount]
     if type == "deposit"
