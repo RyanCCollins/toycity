@@ -1,3 +1,15 @@
+commit f955da123df55bebe91ec7cd1f83dd83b5ed2f36
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:56:59 2016 -0500
+
+    Docs: update README.md with instructions for running
+
+commit 08cc7b49d52a42194808345f029c277a6e91454d
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:51:52 2016 -0500
+
+    Chore: update log.txt with newest commits
+
 commit 81159649adb5c9c5bd63d5bc67acd3701e48eb7e
 Author: Ryan Collins <rccproductions@mac.com>
 Date:   Wed Mar 2 13:51:21 2016 -0500
