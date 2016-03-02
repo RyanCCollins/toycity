@@ -59,7 +59,7 @@ class Transaction
 
   def make_transaction
     options = {type: "deposit", amount: self.product.price}
-    @@account.make_transaction(options) # The password should not be hardcoded, but it is here to demonstrate.
+    @@account.make_transaction(options) # Make a transaction and deposit to bank account.
     add_to_transactions
   end
 

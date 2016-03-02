@@ -1,0 +1,281 @@
+commit e6f28b913480ef3730b162047babc7e6d1a362e7
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 23:30:25 2016 -0500
+
+    Feat: update app.rb with default options for transactions
+
+commit fc4d31e82faa345b899d8a15a4e94a84c194532a
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 23:20:20 2016 -0500
+
+    Feat: update with log.txt with git commits for submission
+
+commit ffe77e8c27bafee5b91d8542d25482d781f18a5a
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 23:07:13 2016 -0500
+
+    Feat: add bank account class that updates with transactions
+
+commit 594e574930e9ef196c51ea7435bd5037dac740d3
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 20:56:40 2016 -0500
+
+    Feat: add bank account class
+
+commit 4cd4b89c4abcb7c08560718842f30d2a09475a74
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 19:48:59 2016 -0500
+
+    Feat: refactor for submission
+
+commit e3740dc281989b2efb66834eda723c2fc5cb4201
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 17:09:42 2016 -0500
+
+    Feat: update with comments for submission
+
+commit 68896404b3f70096e5df9cb2b598da529efbe1b9
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 13:03:32 2016 -0500
+
+    Feat: update with comments for submission
+
+commit 8d0b7a8382a26d22a85bb656e2943e8e9fe9efa1
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 12:29:24 2016 -0500
+
+    Chore: refactor to meet project specs
+
+commit 3a35c331779aa1e757f9986558699cfcdc61eaa0
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 11:41:00 2016 -0500
+
+    Feat: add transaction and product classes
+
+commit 832c679b8ade04f7a306b4e5fc26fb9b8f68490e
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 00:02:51 2016 -0500
+
+    Feat: add product class methods
+
+commit 4c223b1ce623dfc032aac1d409363fd770e388df
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Tue Mar 1 03:38:06 2016 +0000
+
+    Feat: scaffold part 3 for toycity part 3
+
+commit e487a4126e5cd2bd24a42232d36554bec1b7744f
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Mon Feb 29 23:59:05 2016 +0000
+
+    Feat: initialize repo for project 3
+
+commit 6e6bb97088162aaf4f1d1c1743193c2b908c0186
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 18:15:09 2016 +0000
+
+    Feat: remove repetive commits from log.txt
+
+commit c129f872583efdb60c45e8ebb711ac75e900a7b4
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:59:29 2016 +0000
+
+    Docs: add log.txt with all new commits
+
+commit 70d43cc3ab16b5b8010b9e931844b74edfa60c33
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:57:13 2016 +0000
+
+    Docs: update README.md with the project 2 specs
+    
+    * The README.md was not updated after merge of branch toycity/project2
+    * This commit will update it.
+    
+    See: https://github.com/udacity/rbnd-toycity-part2/blob/master/README.md
+
+commit 19a4f0d6b3823f630e4414c150d041620ec57c40
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:46:57 2016 +0000
+
+    Feat: comments to explain method length
+
+commit 5c16b23dbccd2437d61c54c24032094979a01feb
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:37:52 2016 +0000
+
+    Feat: add log.txt to top level with git logs
+
+commit 0b7d7b72766236a815abd5cb03658b44d8ce5048
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:28:42 2016 +0000
+
+    Fix: remove round operator from the parse_brand method
+
+commit da2892bab7c820432257b4a35f866b0544df2061
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 17:25:34 2016 +0000
+
+    Fix: the report will now print even when purchases is empty
+
+commit 9b8ca89997d3b7a1eac419137dfd9c9537ffbaf9
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 16:53:31 2016 +0000
+
+    Chore: change order of methods to better match the flow
+    
+    * The flow should match how the program runs, from bottom up
+
+commit c9464cf6459b7b026404a09fcdd997b74c3b0803
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 16:25:06 2016 +0000
+
+    Feat: add options for printing to terminal and file
+
+commit d95a6a7d746a6f0701978ae3b628b7cd5f98ad8e
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 16:15:51 2016 +0000
+
+    Feat: add terminal output in output_report
+    
+    * The app will output the report into file and terminal
+
+commit cfbaf178224e0ed571f98052784d7e57b11482a6
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 16:05:39 2016 +0000
+
+    Fix: print correct brand counts
+    
+    * The update_brand! method fixes the issue of brands not printing correctly
+
+commit 0ae9944643031f39c6bd0a952befca1299d1a8e9
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 04:10:54 2016 +0000
+
+    Fix: correctly calculate the brand count for products
+
+commit 90d2c419e84c26dd2c7ab4d770b6690b46e78233
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 02:16:23 2016 +0000
+
+    Fix: add newline characters to report
+
+commit 36462826dfd80025069b5588d97275d50f36ac4f
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Sat Feb 27 01:56:42 2016 +0000
+
+    Chore: refactor to parse data into report format
+
+commit 2c87bdbddb8b554703bd41c052902887de70e300
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Fri Feb 26 22:29:39 2016 +0000
+
+    Feat: refactor of products and brand printing
+    
+    * The report is now its own entity instead of a global
+    * The brand and report printing sections are returning output
+
+commit 2f1bc6a06e48943f7378efa7d7ca6469da3c1026
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Fri Feb 26 16:31:49 2016 +0000
+
+    Feat: change order to run bottom up for report
+
+commit cd57a1e30650a6d4ad4f54ba30e69fdd4d05c438
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Fri Feb 26 16:15:37 2016 +0000
+
+    Fix: brand section to read from global report var
+
+commit 2f6fbc1d7bbf09f54c312abeac48647a6d7bce4f
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Fri Feb 26 04:31:28 2016 +0000
+
+    Feat: setup methods for project
+
+commit c219ed7e52ed1b9d1c545b00a97eeeed20f18b8c
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Fri Feb 26 00:16:23 2016 +0000
+
+    Feat: define outline for methods in report_writer
+
+commit 01cd2c46491cf94ca93969a627ccf7de5099c68b
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Thu Feb 25 16:22:35 2016 +0000
+
+    Feat: fix bug identified in review
+
+commit 50ae344ad3af972c0b1d6dbade256ae59ddc93a1
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:47:44 2016 +0000
+
+    Docs: add comments to explain and remove spacing in headers
+
+commit 17e97e824abcab7d5ff6b032818ec1aa508deeb5
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:45:15 2016 +0000
+
+    Chore: change spacing for the puts brand section
+
+commit c72a399ddb79f834f57c39c242264bbf7e0d9c4a
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:42:38 2016 +0000
+
+    Docs: add explanation of ambiguity in requirements for Total Stock
+
+commit 37e99e7b4522f33dd3a02b2bd23e8796f5924293
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:39:31 2016 +0000
+
+    Docs: update commenting for submission
+
+commit de57b0e3ad3233dad6eaf9370d24de4240db62a5
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:32:05 2016 +0000
+
+    Chore: tidy up the report writer
+
+commit e7734202864c5ebaaea73bf24dbfdf917c230ef2
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 16:21:11 2016 +0000
+
+    Feat: redo the project without OOP to meet requirements
+
+commit 33359618687de1d30f129c79e8fbf5be9fc7a1f9
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 04:19:27 2016 +0000
+
+    Feat: add the brand report generator
+
+commit 4878a2ecc1fb6d04da31fc06f6fa0b14e3c285ca
+Merge: ffe4b63 c3f04bb
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 03:10:47 2016 +0000
+
+    Merge branch 'master' of https://github.com/RyanCCollins/toycity
+    
+    Conflicts:
+    	README.md
+
+commit ffe4b63948a75086caf0cb2a89e1f23fcc02d2b4
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 03:06:56 2016 +0000
+
+    Docs: add project rubric and specs for ToyCity Part 1
+
+commit 2cb7c8c38fc2de8d139d07a24f34d90b5294bb63
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 03:05:45 2016 +0000
+
+    Docs: update readme.md with instructions for install
+
+commit ca0925b3053ccd0d362fb8ba6cff646abc75b5c7
+Author: Ryan Collins <techrapportrc@gmail.com>
+Date:   Wed Feb 24 03:01:03 2016 +0000
+
+    Init: new repo for ruby ND toycity project
+
+commit c3f04bb6e7136acebeb04364932e9349ae0ed2cc
+Author: Ryan Collins <RyanCCollins@users.noreply.github.com>
+Date:   Tue Feb 23 22:00:37 2016 -0500
+
+    Initial commit

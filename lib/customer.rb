@@ -25,6 +25,7 @@ class Customer
 
   private
 
+  # If this is a new customer, push onto customers array.
   def add_to_customers
     if @@customers.find {|customer| customer.name == self.name }
       raise DuplicateNameError, "#{self.name} is already a customer."
