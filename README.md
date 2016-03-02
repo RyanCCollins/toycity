@@ -1,3 +1,32 @@
+Toy City Part 3
+
+## Getting Started
+run the following from the app directory:
+```
+irb -r ./app.rb
+```
+
+### Installing
+N/A
+
+## Deployment
+N/A
+
+## Built With
+Ruby!
+
+## Authors
+
+* **Ryan Collins**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+Thanks to the Ruby crew at Udacity!
+
+
 # ToyCity 3: Inventory Edition
 
 ## Project Overview
