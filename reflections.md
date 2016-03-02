@@ -16,3 +16,5 @@ The app will now print receipts when there is a new transaction.  I did this bec
 
 #### Feature 2
 I also added the ability to track product transactions in the bank account.  This may not really be realistic without persistence, but it was fun to implement.  I utilized private methods for withdrawing and depositing money with each transaction.  I was not entirely sure if I should alter the app.rb file, so I did not do much with it for this submission.
+
+When a transaction is made, the bank account will go up by the amount of the sale.

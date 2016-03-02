@@ -2,7 +2,7 @@ require_relative "errors"
 require_relative "bank"
 
 class Transaction
-  attr_reader :customer, :product, :id
+  attr_reader :customer, :product, :id, :sale_amount
 
   @@id = 0
   @@transactions = []
@@ -10,12 +10,12 @@ class Transaction
   def initialize(customer, product, options = {quantity: 1, print_receipt: true})
     @customer = customer
     @product = product
-    @@account = BankAccount.new(1000000.00) # Just initalize a default account for all transactions
 
     # Initialize the bank account for testing
     product.remove_stock!(options[:quantity])
     @id = increment_transaction_id
 
+    @sale_amount = options[:quantity] * @product.price
     make_transaction
 
     #Print a receipt as long as the option is on.
@@ -58,8 +58,8 @@ class Transaction
   private
 
   def make_transaction
-    options = {type: "deposit", amount: self.product.price}
-    @@account.make_transaction(options) # Make a transaction and deposit to bank account.
+    options = {type: "deposit", amount: self.sale_amount}
+    BankAccount.make_transaction(options) # Make a transaction and deposit to bank account.
     add_to_transactions
   end
 
