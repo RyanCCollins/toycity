@@ -10,7 +10,7 @@ class Product
     @title = options[:title]
     @price = options[:price]
     @stock = options[:stock]
-    add_to_products # Add the products
+    add_to_products # Add the product
   end
 
   # Returns true if the product is in stock
@@ -18,6 +18,8 @@ class Product
     @stock > 0
   end
 
+  # Remove from the stock and raise an error if the customer
+    # wants more than is available.
   def remove_stock!(quantity)
     unless quantity > @stock
       @stock = @stock - quantity
@@ -25,8 +27,6 @@ class Product
       raise OutOfStockError, "#{self.title} is out of stock."
     end
   end
-
-  protected
 
   # Define self under protected because they are instance methods
   def self.all
@@ -46,10 +46,12 @@ class Product
 
   private
   # Private method for adding to the products array.
+    # Will raise an error if the product already exists.
   def add_to_products
     unless @@products.find {|product| product.title == title}
       @@products << self
     else
+      AppLogger.log "#{self.title} already exists."
       raise DuplicateProductError, "#{self.title} already exists."
     end
   end
