@@ -15,4 +15,11 @@ The app will now print receipts when there is a new transaction.  I did this bec
 #### Feature 2
 I also added the ability to track product transactions in the bank account.  This may not really be realistic without persistence, but I thought that it was it would be a useful feature for later iterations.
 
-To test it, you can see that there is a default bank account defined in app.rb.  You can call any of the methods on it like `withdraw`, `deposit`, etc.  I would likely tie the bank to the transactions and automatically update it, but I was not entirely sure if I should alter the app.rb file too much, so I did not do much with it for this submission.
+To test it, you can see that there is a default bank account defined in app.rb.  You can call any of the methods on it like
+```
+bank = BankAccount.new
+bank.deposit(20) # Should return 180.0
+bank.withdraw(20) # Should return 200.0
+bank.withdraw(1000000000) # Should return "Sorry but you need more money to do that"
+```
+I would likely tie the bank to the transactions and automatically update it, but I was not entirely sure if I should alter the app.rb file too much, so I did not do much with it for this submission.

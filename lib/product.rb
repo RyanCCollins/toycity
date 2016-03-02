@@ -28,18 +28,21 @@ class Product
     end
   end
 
-  # Define self under protected because they are instance methods
+  # Returns all products from class
   def self.all
     @@products
   end
 
-  # Instance method, searches for whether the particular product is in stock (self).
+  # Searches for whether the particular product is in stock (self).
+    # .select is convenience for creating a new array filled with only the elements
+    # That meet the criteria, in this case .in_stock?
   def self.in_stock
     @@products.select { |product| product.in_stock?}
   end
 
-  # Find a product by title.  The .find method is a shortcut for looping
-    # through an array to find a match by title.
+  # Find a product by title.
+    # The find method loops through the array and returns the first match based
+    # on the given conditions.
   def self.find_by_title(title)
     @@products.find {|product| product.title == title}
   end
