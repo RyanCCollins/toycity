@@ -1,3 +1,21 @@
+commit c30ecf14269fda7e9dbafbfbeb3a133706c77ced
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 14:05:55 2016 -0500
+
+    Feat: update the receipts with dollar sign for price
+
+commit 4b931669e79c5b0b7694a6960484fd7fd203442f
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:58:38 2016 -0500
+
+    Chore: add readme.md with new instructions
+
+commit 25f552e81168c2f4ae56e597f3b01055d441742b
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:57:24 2016 -0500
+
+    Chore: update log.txt with newest commits
+
 commit f955da123df55bebe91ec7cd1f83dd83b5ed2f36
 Author: Ryan Collins <rccproductions@mac.com>
 Date:   Wed Mar 2 13:56:59 2016 -0500
