@@ -22,7 +22,7 @@ class Product
     # wants more than is available.
   def remove_stock!(quantity)
     unless quantity > @stock
-      @stock = @stock - quantity
+      @stock -= quantity
     else
       raise OutOfStockError, "#{self.title} is out of stock."
     end

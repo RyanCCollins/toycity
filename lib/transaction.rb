@@ -10,7 +10,7 @@ class Transaction
   def initialize(customer, product, options = {quantity: 1, print_receipt: true})
     @customer = customer
     @product = product
-    @@account = BankAccount.new(1000000.00) # Just initalize a new account for all transactions
+    @@account = BankAccount.new(1000000.00) # Just initalize a default account for all transactions
 
     # Initialize the bank account for testing
     product.remove_stock!(options[:quantity])
@@ -50,8 +50,6 @@ class Transaction
       raise UnkownTransactionError, "Unknown transaction of ID: #{id}"
     end
   end
-
-  protected
 
   def increment_transaction_id
     @@id += 1
