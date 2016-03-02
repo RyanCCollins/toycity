@@ -1,3 +1,33 @@
+commit 99297f9fa782956e0fe470feb1fcb96c90a64e65
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:25:17 2016 -0500
+
+    Feat: update with comments and reflections
+
+commit 0a4568b5da018f4e6230839198ea3f5d9657baf7
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:21:58 2016 -0500
+
+    Feat: update with ability to print bank account balance at end of day
+
+commit 72d54dcccb37f636ab31694b2b2e5e3147cfe49b
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 10:53:19 2016 -0500
+
+    Feat: update the bank.rb file to be more useful
+
+commit 75ecd24a44d8404cbddc85057a8d8dcc5c710783
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 23:36:11 2016 -0500
+
+    Feat: remove the three projects from app.rb
+
+commit 696ca288e91d606087e035ad351e076bf7afda96
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Tue Mar 1 23:35:17 2016 -0500
+
+    Docs: update customer.rb with comments
+
 commit e6f28b913480ef3730b162047babc7e6d1a362e7
 Author: Ryan Collins <rccproductions@mac.com>
 Date:   Tue Mar 1 23:30:25 2016 -0500
