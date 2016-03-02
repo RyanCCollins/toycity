@@ -4,6 +4,8 @@ require_relative "lib/product"
 require_relative "lib/transaction"
 require_relative "lib/bank"
 
+bank = BankAccount.new
+
 # PRODUCTS
 
 Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
@@ -47,7 +49,7 @@ puts walter.name # Should return "Walter Latimer"
 
 # Feature number one.  By default, a new transaction will print a receipt.
   # You can test this by changing the quantity and the print_receipt option
-transaction = Transaction.new(walter, nanoblock, {:quantity => 1, :print_receipt => true}) # Would be good if this didn't output a return value.
+transaction = Transaction.new(walter, nanoblock, {:quantity => 3, :print_receipt => true}) # Would be good if this didn't output a return value.
 
 puts transaction.id # Should return 1
 puts transaction.product == nanoblock # Should return true
@@ -68,4 +70,10 @@ puts transaction2.product == nanoblock # Should return true
 #walter.purchase(firehouse)
 # Should return OutOfStockError: 'LEGO Firehouse Headquarter' is out of stock.
 
-puts BankAccount.funds_available
+
+# Note that I did this in order to not modify the existing structure too much
+  # I would rather this happen automatically when a transaction is made
+Transaction.all.each do |tranaction|
+  bank.deposit(transaction.sale_amount)
+end
+puts "What a great day!!  Our new account balance is: $#{bank.calculate_new_balance.round(2)}"

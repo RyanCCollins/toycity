@@ -1,12 +1,10 @@
 ## Reflections
 
 1. How long did you spend working on this project?
-It took me about an hour and a half all together.
+It took me about an three and a half hours all together.
 
 2. What was the most rewarding challenge you conquered?
-I am just so happy that I am using Ruby OOP now.  I think the best thing I accomplished is having a good understanding of how Ruby goes about OOP.  I like that the language feels like it is extremely flexible and easy to extend, yet it enforces strict OOP principles.  I think everyone can benefit from learning about the choices that Matz made when developing Ruby.
-
-I started reading a really interesting book about how Ruby was built: [see here]](http://rhg.rubyforge.org/).  It's a dense read, but it I find it to be really interesting.
+I think the most rewarding part is having a good understanding of Object Oriented Ruby.  I like that the language feels like it is extremely flexible and easy to extend, yet it enforces strict OOP principles.  OOP is clearly meant to make programming more natural and less error prone and I find that to be the case with Ruby and the other languages I know.
 
 3. What two additional features did you build? Why?
 The two extra features that I added are as follows:

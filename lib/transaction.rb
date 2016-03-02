@@ -4,7 +4,7 @@ require_relative "bank"
 class Transaction
   attr_reader :customer, :product, :id, :sale_amount
 
-  @@id = 0
+  @@id_counter = 0
   @@transactions = []
 
   def initialize(customer, product, options = {quantity: 1, print_receipt: true})
@@ -52,14 +52,12 @@ class Transaction
   end
 
   def increment_transaction_id
-    @@id += 1
+    @@id_counter += 1
   end
 
   private
 
   def make_transaction
-    options = {type: "deposit", amount: self.sale_amount}
-    BankAccount.make_transaction(options) # Make a transaction and deposit to bank account.
     add_to_transactions
   end
 
