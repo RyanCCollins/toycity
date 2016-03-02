@@ -1,4 +1,5 @@
-
+# Note:  I implemented this because I would like it to be a feature I use for later iterations.
+  # Not all functionality is being utilized.
 class BankAccount
 
   def initialize()
@@ -26,6 +27,6 @@ class BankAccount
 
   # Return true if the transaction is possible based on the amount of money available.
   def withdrawal_possible?(amount)
-    return amount < @total_balance # Return whether the amount is greater than the funds available.
+    return amount < @total_balance
   end
 end

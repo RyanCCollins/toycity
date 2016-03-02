@@ -13,6 +13,6 @@ The two extra features that I added are as follows:
 The app will now print receipts when there is a new transaction.  I did this because it makes sense that this app would print receipts.  I was trying to make this a more realistic application that someone would use.  On top of that, I added a UnknownTransactionError, which will throw when trying to print a receipt for a transaction not in the system.
 
 #### Feature 2
-I also added the ability to track product transactions in the bank account.  This may not really be realistic without persistence, but it was fun to implement.  I utilized private methods for withdrawing and depositing money with each transaction.  I was not entirely sure if I should alter the app.rb file, so I did not do much with it for this submission.
+I also added the ability to track product transactions in the bank account.  This may not really be realistic without persistence, but I thought that it was it would be a useful feature for later iterations.
 
-When a transaction is made, the bank account will go up by the amount of the sale.
+To test it, you can see that there is a default bank account defined in app.rb.  You can call any of the methods on it like `withdraw`, `deposit`, etc.  I would likely tie the bank to the transactions and automatically update it, but I was not entirely sure if I should alter the app.rb file too much, so I did not do much with it for this submission.

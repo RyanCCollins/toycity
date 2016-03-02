@@ -42,10 +42,13 @@ class Transaction
   def print_receipt(id)
     transaction = find_one(id)
     unless transaction == nil
+      puts ""
       puts "Receipt for transaction #{transaction.id}"
+      puts "---------------------"
       puts "Product Bought: #{transaction.product.title}"
       puts "Customer Name: #{transaction.customer.name}"
       puts "Sale Price: #{transaction.product.price}"
+      puts ""
     else
       raise UnkownTransactionError, "Unknown transaction of ID: #{id}"
     end
