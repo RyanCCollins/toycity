@@ -11,12 +11,15 @@ class Transaction
     @customer = customer
     @product = product
 
-    # Initialize the bank account for testing
+    # Remove stock from the product if possible.
+      # Will raise an out of stock error if quantity exceeds stock.
     product.remove_stock!(options[:quantity])
     @id = increment_transaction_id
 
+    # Calculate the amount of the sale (quantity times price).
+      # We may want to calculate sales tax in the next version.
     @sale_amount = options[:quantity] * @product.price
-    make_transaction
+    add_to_transactions
 
     #Print a receipt as long as the option is on.
     unless options[:print_receipt] == false
@@ -26,7 +29,8 @@ class Transaction
 
   # Class method for finding by ID
   def self.find(id)
-    # Find a transaction by id
+    # Find a transaction by id using the .find iterator.
+      # Will return the first result.
     @@transactions.find {|transaction| transaction.id == id }
   end
 
@@ -35,12 +39,10 @@ class Transaction
     @@transactions
   end
 
-  def find_one(id)
-    @@transactions.find {|transaction| transaction.id == id }
-  end
-
+  # Print a receipt for the transaction by ID.
+    # Raise an error if there is no transaction to be found.
   def print_receipt(id)
-    transaction = find_one(id)
+    transaction = @@transactions.find {|transaction| transaction.id == id }
     unless transaction == nil
       puts ""
       puts "Receipt for transaction #{transaction.id}"
@@ -54,16 +56,14 @@ class Transaction
     end
   end
 
+  private
+
+  # Increment the transaction id counter.
   def increment_transaction_id
     @@id_counter += 1
   end
 
-  private
-
-  def make_transaction
-    add_to_transactions
-  end
-
+  # Add to the transactions array.
   def add_to_transactions
     @@transactions << self
   end
