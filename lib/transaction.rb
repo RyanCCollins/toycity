@@ -48,7 +48,7 @@ class Transaction
       puts "---------------------"
       puts "Product Bought: #{transaction.product.title}"
       puts "Customer Name: #{transaction.customer.name}"
-      puts "Sale Price: #{transaction.product.price}"
+      puts "Sale Price: $#{transaction.product.price}"
       puts ""
     else
       raise UnkownTransactionError, "Unknown transaction of ID: #{id}"
