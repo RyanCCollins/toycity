@@ -1,3 +1,21 @@
+commit 81159649adb5c9c5bd63d5bc67acd3701e48eb7e
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:51:21 2016 -0500
+
+    Chore: update transaction and customer files for submission.
+
+commit 721201dd8aff1d3987a895a7dca26d0f073c6039
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:41:56 2016 -0500
+
+    Chore: update product.rb with explanation commenting
+
+commit 7e33b8809727825b99528c1a69f793d1891832a7
+Author: Ryan Collins <rccproductions@mac.com>
+Date:   Wed Mar 2 13:25:44 2016 -0500
+
+    Chore: output git log for submission
+
 commit 99297f9fa782956e0fe470feb1fcb96c90a64e65
 Author: Ryan Collins <rccproductions@mac.com>
 Date:   Wed Mar 2 13:25:17 2016 -0500
