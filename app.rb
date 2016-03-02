@@ -4,8 +4,6 @@ require_relative "lib/product"
 require_relative "lib/transaction"
 require_relative "lib/bank"
 
-bank = BankAccount.new(10000000, "temppassword")
-
 # PRODUCTS
 
 Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
@@ -14,7 +12,7 @@ Product.new(title: "LEGO Firehouse Headquarter", price: 199.99, stock: 0)
 
 puts Product.all.count # Should return 3
 
-Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
+#Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
 # Should return DuplicateProductError: 'LEGO Iron Man vs. Ultron' already exists.
 
 nanoblock = Product.find_by_title("Nano Block Empire State Building")
@@ -54,6 +52,7 @@ puts transaction.id # Should return 1
 puts transaction.product == nanoblock # Should return true
 puts transaction.product == firehouse # Should return false
 puts transaction.customer == walter # Should return true
+
 
 puts nanoblock.stock # Should return 11
 

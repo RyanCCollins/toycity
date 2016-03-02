@@ -51,7 +51,6 @@ class Product
     unless @@products.find {|product| product.title == title}
       @@products << self
     else
-      AppLogger.log "#{self.title} already exists."
       raise DuplicateProductError, "#{self.title} already exists."
     end
   end

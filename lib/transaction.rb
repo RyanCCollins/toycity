@@ -1,20 +1,25 @@
 require_relative "errors"
+require_relative "bank"
 
 class Transaction
   attr_reader :customer, :product, :id
 
-  @@transaction_id = 0
+  @@id = 0
   @@transactions = []
 
   def initialize(customer, product, options = {quantity: 1, print_receipt: true})
     @customer = customer
     @product = product
+    @@account = BankAccount.new(1000000.00) # Just initalize a new account for all transactions
+
+    # Initialize the bank account for testing
     product.remove_stock!(options[:quantity])
     @id = increment_transaction_id
-    add_to_transactions
+
+    make_transaction
 
     #Print a receipt as long as the option is on.
-    unless options[:receipt] == false
+    unless options[:print_receipt] == false
       print_receipt(@id)
     end
   end
@@ -47,12 +52,18 @@ class Transaction
   end
 
   protected
-  # Call with self
+
   def increment_transaction_id
-    @@transaction_id += 1
+    @@id += 1
   end
 
   private
+
+  def make_transaction
+    options = {type: "deposit", amount: self.product.price}
+    @@account.make_transaction(options) # The password should not be hardcoded, but it is here to demonstrate.
+    add_to_transactions
+  end
 
   def add_to_transactions
     @@transactions << self

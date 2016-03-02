@@ -1,30 +1,30 @@
+# The bank account class takes care of depositing keeping track of our funds
+  # I was not sure exactly how to demonstrate this in app.rb, but these all work.
+  # It would be more useful to make this app interactive with user input and such.
 class BankAccount
-  include Singleton # We should probably only have one bank account
   attr_reader :funds_available
 
-  def initalize(funds, password)
+  def initialize(funds)
     @funds_available = funds
-    @password = password
   end
 
-  def make_transacion(options = {}, password)
+  # Takes an options hash and a password.  The option should be deposit or withdrawal.
+    # Set a default password for the purposes of demonstrating and set authenticated to true.
+  def make_transaction(options = {})
     type = options[:type]
     amount = options[:amount]
-    if password = @password
-      if type == "deposit"
-        deposit_funds(amount)
-      elsif type == "withdrawal"
-        withdraw_funds(amount)
-      end
-    else
-      puts "Password is incorrect.  Please don't hack the bank."
+    if type == "deposit"
+      deposit_funds(amount)
+    elsif type == "withdrawal"
+      withdraw_funds(amount)
     end
   end
 
   private
 
+  # Return true if the transaction is possible based on the amount of money available.
   def transaction_possible?(amount)
-    return amount > @funds_available # Return whether the amount is greater than the funds available.
+    return amount < @funds_available # Return whether the amount is greater than the funds available.
   end
 
   def deposit_funds(amount)
