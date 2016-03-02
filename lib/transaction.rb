@@ -1,5 +1,4 @@
 require_relative "errors"
-require_relative "bank"
 
 class Transaction
   attr_reader :customer, :product, :id, :sale_amount
