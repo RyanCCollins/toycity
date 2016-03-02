@@ -4,18 +4,17 @@ class Customer
   attr_reader :name
   @@customers = []
 
-
   def initialize(options = {})
     @name = options[:name]
     add_to_customers
   end
 
+  # Create a new transaction.
   def purchase(product, options = {:quantity => 1}) # Set default quantity to 1
     Transaction.new(self, product, options)
   end
 
-  protected
-
+  # Class method for finding customers by name.
   def self.find_by_name(name)
     @@customers.find {|customer| customer.name == name}
   end

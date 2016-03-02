@@ -45,14 +45,13 @@ class Product
   end
 
   private
-
+  # Private method for adding to the products array.
   def add_to_products
     unless @@products.find {|product| product.title == title}
       @@products << self
     else
-      raise DuplicateProductError, "'#{self.title}'' already exists."
+      raise DuplicateProductError, "#{self.title} already exists."
     end
   end
-
 
 end

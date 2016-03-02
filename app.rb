@@ -44,7 +44,8 @@ puts walter.name # Should return "Walter Latimer"
 
 # TRANSACTIONS
 
-transaction = Transaction.new(walter, nanoblock)
+# Feature number one.  By default, a new transaction will print a receipt.
+transaction = Transaction.new(walter, nanoblock) # Would be good if this didn't output a return value.
 
 puts transaction.id # Should return 1
 puts transaction.product == nanoblock # Should return true

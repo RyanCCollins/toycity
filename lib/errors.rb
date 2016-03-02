@@ -6,3 +6,6 @@ end
 
 class DuplicateNameError < StandardError
 end
+
+class UnkownTransactionError < StandardError
+end
