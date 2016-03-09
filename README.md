@@ -1,64 +1,44 @@
-Toy City Part 3
-
-## Getting Started
-run the following from the app directory:
-```
-irb -r ./app.rb
-```
-
-### Installing
-N/A
-
-## Deployment
-N/A
-
-## Built With
-Ruby!
-
-## Authors
-
-* **Ryan Collins**
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-Thanks to the Ruby crew at Udacity!
-
-
-# ToyCity 3: Inventory Edition
+# ToyCity 4 - Udacidata
 
 ## Project Overview
 
-Great job generating the last few reports. Your boss was able to use the data you prepared for her to identify some problems with how the company was being run. And now, business is booming. In the short amount of time you've been learning Ruby, you've already added value at ToyCity. Keep it up.
+Your boss loves what you did with the inventory app in ToyCity 3, but now has another request. She wants to be able to permanently store the data in a database, and update the database through the app rather than modify the database directly by hand.
 
-She's got another project for you. After reviewing your reports, your boss has decided that the inventory system needs to be redone from the ground up.
-
-Now, she knows that's a pretty big task, so all she's looking for right now is a proof of concept. Show her that you can use your new object-oriented skills to get a prototype up off the ground.
-
-For this project, you'll be creating a way to keep track of product inventory, customer data, and transactions. These are the same types of problems you'll commonly be solving when working on a larger-scale web-app.
+In this project, you will use all the knowledge you learned in this Nanodegree program to create a special class called Udacidata that will map each Product object to an entry in the ToyCity database.
 
 ## Why Does This Matter?
 
-Keeping large amounts of data organized is one of the number one challenges web developers address on a daily basis. The general organization of this project loosely reflects the structure of a tool called ActiveRecord, which is used frequently as a Ruby on Rails developer.
-
-As you work through this project, think about real-world parallels in web apps you may already be familiar with. How might they organize their data? Which objects might they have?
+Keeping large amounts of data organized is one of the number one challenges web developers address on a daily basis. The general organization of this project reflects the structure of a tool called ActiveRecord, which is used frequently as a Ruby on Rails developer.
 
 ## Completing this Project
 
-You should have completed all the necessary steps for finishing this project in ToyCity 3: Inventory Edition. Before submitting, ensure your program returns the correct values for all sample data provided, including:
+You should have completed all the necessary steps for finishing this project in ToyCity 4. Before submitting, ensure your program returns the correct values for all the sample code provided in `app.rb`, and meets the following requirements.
 
-* Products, customers, and transactions initialize properly
-* Class methods for `all` and `find` (and its variants) work as expected for each class
-* Instance methods for products work as expected
-* Errors return when needed for each class
-* The `purchase` instance method for customers is properly implemented
+* **Udacidata**: The `Udacidata` class has all of the required methods correctly implemented. Each method returns the expected return values outlined in the lesson and in `udacidata_test.rb`.
+    * `all`
+    * `create`
+    * `first` and `first(n)`
+    * `last` and `last(n)`
+    * `destroy`
+    * `update`
+    * `find` and `find_by_#{attribute}`
+    * `where`
+* **Modules**: The `Analyzable` module contains all of the required methods correctly implemented. Each method returns the expected return values outlined in the lesson and in `analyzable_test.rb`
+    * `count_by_brand`
+    * `count_by_name`
+    * `average_price`
+    * `print_report`
+* **Seeds**: The Faker gem is used to generate fake data in the `db_seed` method inside `seeds.rb`. `db_seed` populates the database with 10 new `Product`s.
+* **Metaprogramming**: Metaprogramming concepts (e.g., re-opening classes, `define_method`, `class_eval`, etc.) are used to dynamically define the `find_by_#{attribute}` methods rather than hardcoding them.
+* **Test-Driven-Development**: The student uses TDD and all of the tests in both `udacidata_test.rb` and `analyzable_test.rb` pass.
+* **Modules**: The `Analyzable` module contains all of the required methods correctly implemented.
+* **Final Output**: The code in `app.rb` is uncommented after the tests pass and outputs the expected return values to the terminal. (Code demonstrating error handling can remain commented out.)
+* **Errors**: `ProductNotFoundError` is raised when non-existent product IDs are passed in as arguments.
+* **.gitignore**: Files like `.DS_Store` and `data.csv` are added and ignored using a `.gitignore`
 
 Additionally, the following requirements have been met:
 
 * The project is submitted using GitHub, with regular commits
-* A reflection has been included in the top level directory
 * Code follows proper style and naming conventions
 
 ## Submitting Your Project
@@ -68,5 +48,5 @@ Before submitting your project for evaluation, we recommend that you check that 
 * Your program runs without any errors
 * You are proud of your project and its output
 * You completed your project according to the instructions
-* You checked your project against the [rubric](https://docs.google.com/document/d/1-zsHE1lwX81sekgRiPNZeJpXDu7e-WnDQImHWBCThS4/pub)
+* You checked your project against the [rubric](https://docs.google.com/document/d/1eXSL_d3Ie0tF04V1gTZSd4jAFx5DhuakiPoJpaF3BdQ/pub)
 * When you feel ready to submit, use the blue 'Submit Project' button below!

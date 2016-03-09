@@ -1,79 +1,133 @@
-require_relative "lib/errors"
-require_relative "lib/customer"
-require_relative "lib/product"
-require_relative "lib/transaction"
-require_relative "lib/bank"
+require_relative 'lib/analyzable'
+require_relative 'lib/product'
+require_relative 'data/schema'
 
-bank = BankAccount.new
+include Analyzable
 
-# PRODUCTS
+# Uncomment the following code once ALL your tests have passed!
 
-Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
-Product.new(title: "Nano Block Empire State Building", price: 49.99, stock: 12)
-Product.new(title: "LEGO Firehouse Headquarter", price: 199.99, stock: 0)
-
-puts Product.all.count # Should return 3
-
-#Product.new(title: "LEGO Iron Man vs. Ultron", price: 22.99, stock: 55)
-# Should return DuplicateProductError: 'LEGO Iron Man vs. Ultron' already exists.
-
-nanoblock = Product.find_by_title("Nano Block Empire State Building")
-firehouse = Product.find_by_title("LEGO Firehouse Headquarter")
-
-puts nanoblock.title # Should return 'Nano Block Empire State Building'
-puts nanoblock.price # Should return 49.99
-puts nanoblock.stock # Should return 12
-puts nanoblock.in_stock? # Should return true
-puts firehouse.in_stock? # Should return false
-
-products_in_stock = Product.in_stock
-# Should return an array of all products with a stock greater than zero
-puts products_in_stock.include?(nanoblock) # Should return true
-puts products_in_stock.include?(firehouse) # Should return false
-
-# CUSTOMERS
-
-Customer.new(name: "Walter Latimer")
-Customer.new(name: "Julia Van Cleve")
-
-puts Customer.all.count # Should return 2
-
-#Customer.new(name: "Walter Latimer")
-# Should return DuplicateCustomerError: 'Walter Latimer' already exists.
-
-walter = Customer.find_by_name("Walter Latimer")
-
-puts walter.name # Should return "Walter Latimer"
-
-# TRANSACTIONS
-
-# Feature number one.  By default, a new transaction will print a receipt.
-  # You can test this by changing the quantity and the print_receipt option
-transaction = Transaction.new(walter, nanoblock, {:quantity => 1, :print_receipt => true}) # Would be good if this didn't output a return value.
-
-puts transaction.id # Should return 1
-puts transaction.product == nanoblock # Should return true
-puts transaction.product == firehouse # Should return false
-puts transaction.customer == walter # Should return true
-
-puts nanoblock.stock # Should return 11
-
-# PURCHASES
-
-puts walter.purchase(nanoblock)
-
-puts Transaction.all.count # Should return 2
-
-transaction2 = Transaction.find(2)
-puts transaction2.product == nanoblock # Should return true
-
-#walter.purchase(firehouse)
-# Should return OutOfStockError: 'LEGO Firehouse Headquarter' is out of stock.
-
-
-# Note that I did this in order to not modify the existing structure too much
-  # I would rather this happen automatically when a transaction is made
-Transaction.all.each do |tranaction|
-  bank.deposit(transaction.sale_amount)
-end
-puts "What a great day!!  Our new account balance is: $#{bank.calculate_new_balance.round(2)}"
+# db_create
+#
+# puts "-------------------"
+# puts "RETURN ALL PRODUCTS"
+# puts "-------------------"
+# print Product.all
+# puts
+# puts "-----------------"
+# puts "CREATE PRODUCTS"
+# puts "-----------------"
+# print Product.create(brand: "Udacity", name: "yoyo", price: 10.00)
+# print Product.create(brand: "Bouncy", name: "ball", price: 12.00)
+# print Product.create(brand: "MyCool", name: "dollhouse", price: 14.40)
+# print Product.create(brand: "MySoft", name: "stuffed animal", price: 2.09)
+# print Product.create(brand: "AllMy", name: "yoyo", price: 1.00)
+# print Product.create(brand: "Udacity", name: "doll", price: 5.99)
+#
+# puts "-------------------"
+# puts "RETURN ALL PRODUCTS"
+# puts "-------------------"
+# print Product.all
+#
+# puts "--------------------------------------------------------------"
+# puts "TEST ERROR HANDLING FOR DELETE - COMMENT OUT BEFORE SUBMITTING"
+# puts "--------------------------------------------------------------"
+# print Product.destroy(1000000000000)
+#
+# puts "------------------------------------------------------------"
+# puts "TEST ERROR HANDLING FOR FIND - COMMENT OUT BEFORE SUBMITTING"
+# puts "------------------------------------------------------------"
+# print Product.find(1000000000000)
+#
+# puts
+# puts "--------------------"
+# puts "RETURN FIRST PRODUCT"
+# puts "--------------------"
+# print Product.first
+#
+#
+# puts
+# puts "-----------------------"
+# puts "RETURN FIRST 2 PRODUCTS"
+# puts "-----------------------"
+# print Product.first(2)
+#
+# puts
+# puts "-------------------"
+# puts "RETURN LAST PRODUCT"
+# puts "-------------------"
+# print Product.last
+#
+# puts
+# puts "----------------------"
+# puts "RETURN LAST 2 PRODUCTS"
+# puts "----------------------"
+# print Product.last(2)
+#
+# puts
+# puts "-------------------------"
+# puts "DESTROY PRODUCT WITH ID 2"
+# puts "-------------------------"
+# print Product.destroy(2)
+#
+# puts
+# puts "-------------------------------"
+# puts "FIND PRODUCT 4 AND UPDATE BRAND"
+# puts "-------------------------------"
+# print Product.find(4).update(brand: "NewBrand")
+#
+# puts
+# puts "--------------"
+# puts "FIND PRODUCT 1"
+# puts "--------------"
+# print Product.find(1)
+#
+# puts
+# puts "-----------------"
+# puts "DESTROY PRODUCT 3"
+# puts "-----------------"
+# print Product.destroy(3)
+#
+# puts
+# puts "-------------------------------"
+# puts "RETURN PRODUCTS WITH BRAND UDACITY"
+# puts "-------------------------------"
+# print Product.where(brand: "Udacity")
+#
+# puts
+# puts "-------------------------------------"
+# puts "RETURN FIRST PRODUCT WITH GIVEN BRAND"
+# puts "-------------------------------------"
+# print Product.find_by_brand("Udacity")
+# puts
+#
+# puts
+# puts "------------------------------------"
+# puts "RETURN FIRST PRODUCT WITH GIVEN NAME"
+# puts "------------------------------------"
+# print Product.find_by_name("yoyo")
+# puts
+#
+# puts
+# puts "----------------------------"
+# puts "RETURN HASH WITH NAME COUNTS"
+# puts "----------------------------"
+# print Analyzable::count_by_name(Product.all)
+#
+# puts
+# puts "----------------------------"
+# puts "RETURN HASH WITH BRAND COUNTS"
+# puts "----------------------------"
+# print Analyzable::count_by_brand(Product.all)
+#
+# puts
+# puts "--------------------"
+# puts "RETURN AVERAGE PRICE"
+# puts "--------------------"
+# print Analyzable::average_price(Product.all)
+#
+# puts
+# puts "--------------------"
+# puts "PRINT SUMMARY REPORT"
+# puts "--------------------"
+# print Analyzable::print_report(Product.all)
+# puts
