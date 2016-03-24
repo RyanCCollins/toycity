@@ -15,6 +15,10 @@
   <div class="small-9 columns"><%= f.text_field :title %></div>
 </div>
 <div class="row collapse">
+  <div class="small-3 columns"><%= f.label :description, class: 'right-inline', title: "A short description of the product", data: {tooltip:true} %></div>
+  <div class="small-9 columns"><%= f.text_area :description, size: "30x10" %></div>
+</div>
+<div class="row collapse">
   <div class="small-3 columns"><%= f.label :price, class: 'right-inline', title: "Price in USD", data: {tooltip:true} %></div>
   <div class="small-9 columns"><%= f.text_field :price %></div>
 </div>
