@@ -32,10 +32,12 @@ ActiveRecord::Schema.define(version: 20160322002342) do
     t.string   "title"
     t.decimal  "price"
     t.string   "stock"
-    t.string   "brand"
+    t.integer  "brand_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "products", ["brand_id"], name: "index_products_on_brand_id"
 
   create_table "transactions", force: :cascade do |t|
     t.decimal  "amount"
