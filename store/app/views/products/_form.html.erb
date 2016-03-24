@@ -24,7 +24,7 @@
 </div>
 <div class="row collapse">
   <div class="small-3 columns"><%= f.label :brand, class: 'right-inline' %></div>
-  <div class="small-9 columns"><%= f.text_field :brand %></div>
+  <div class="small-9 columns"><%= f.collection_select :brand_id, Brand.order(:name), :id, :name, include_blank: true %></div>
 </div>
 <div class="row collapse">
   <div class="small-3 columns"><%= f.label :stock, class: 'right-inline' %></div>
