@@ -4,16 +4,14 @@ GEM
     faker (1.6.3)
       i18n (~> 0.5)
     i18n (0.7.0)
-    json (1.8.3)
-    rdoc (4.2.2)
-      json (~> 1.4)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   faker (~> 1.6, >= 1.6.3)
-  rdoc (~> 4.2, >= 4.2.2)
+  yard (~> 0.8.7.6)
 
 BUNDLED WITH
-   1.10.5
+   1.11.2

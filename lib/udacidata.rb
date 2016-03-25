@@ -2,23 +2,24 @@ require_relative 'find_by'
 require_relative 'errors'
 require 'csv'
 
+
 class Udacidata
   @@products = []
+  @@file_path = File.dirname(__FILE__) + "/data.csv"
 
-  # Initializes a new database object with options
-  # @params options = {}, { :id => 1, : :name = "Some Name", :brand => "Some Brand
-  #                                                          :price => 29.99 }
-  # ======== Example
-  # Udacidata.new(id: 1, name: "Product Name", brand: "Lego", price: 29.99)
-  def initialize(options = {})
-    @id = id
-    @name = options[:name]
-    @brand = options[:brand]
-    @price = options[:price]
+  def add_to_database *products
+    CSV.open @@file_path do |csv|
+      products.each do |product|
+        csv << [product.id, product.brand, product.name, product.price]
+      end
+    end
   end
 
   class << self
     def create(attributes = nil)
+      product = self.new(attributes)
+      add_to_database product
+      @@products << product
     end
     # Returns all product
     # @return [Product] an array of all products
@@ -41,18 +42,24 @@ class Udacidata
       all.last n
     end
 
-    # Find and return a product by id given
+    # Find and return a product by id given.  Raise the ProductNotFoundError if not found.
     # @params id
     # @return Product, or nil if no product exists at the id
     def find(id)
-      all.select{ |product| product.id == id }
+      product = all.select{ |product| product.id == id }
+      if !product
+        raise ProductNotFoundError, "Product not found"
+      else
+        produt
+      end
     end
 
     # Remove the product with id given from the @@products array
     # @params id
     # @return Product deleted or nil
     def destroy(id)
-      all.delete{ |product| product.id == id }
+      product = find(id)
+      all.delete product if product
     end
 
     # Define methods for find_by_#{attribute}
@@ -66,7 +73,7 @@ class Udacidata
     # end
     ["name", "brand", "price", "id"].each do |method|
       define_method "find_by_#{method}" do
-         all.find { |product| product.#{method} == method }
+        #  all.find { |product| product.#{method} == method }
       end
     end
 
@@ -75,6 +82,5 @@ class Udacidata
 
     def update(*args)
     end
-
   end
 end
