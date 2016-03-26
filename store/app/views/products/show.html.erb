@@ -17,7 +17,7 @@
 
 <p>
   <strong>Brand:</strong>
-  <%= Brand.find @product.brand_id %>
+  <%= Brand.find @product.brand_id if @product.brand_id %>
 </p>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
