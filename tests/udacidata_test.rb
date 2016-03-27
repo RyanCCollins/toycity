@@ -1,10 +1,14 @@
 require 'minitest/autorun'
 require_relative '../lib/product'
 require_relative '../data/seeds'
+require_relative '../data/schema'
 
 class TestUdacidata < MiniTest::Test
 
+  include Schema
+
   def setup
+    db_create
     @data_path = File.dirname(__FILE__) + "/../data/data.csv"
     CSV.open(@data_path, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]

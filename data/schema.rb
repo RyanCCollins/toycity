@@ -3,12 +3,15 @@
 # and adds a header for the columns: id, brand, product, price
 
 module Schema
+
   def db_create
-    data_path = File.dirname(__FILE__) + "/data.csv"
-    if !File.exist?(data_path)
-      CSV.open(data_path, "wb") do |csv|
+    if !File.exist?(file_path)
+      CSV.open(file_path, "wb") do |csv|
         csv << ["id", "brand", "product", "price"]
       end
     end
+  end
+  def file_path
+    File.dirname(__FILE__) + "/data.csv"
   end
 end

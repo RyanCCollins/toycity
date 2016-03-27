@@ -1,21 +1,17 @@
 require_relative 'find_by'
 require_relative 'errors'
+require_relative '../data/schema'
 require 'csv'
 
 
 class Udacidata
   @@products = []
-  @@file_path = File.dirname(__FILE__) + "/data.csv"
 
-  def add_to_database *products
-    CSV.open @@file_path do |csv|
-      products.each do |product|
-        csv << [product.id, product.brand, product.name, product.price]
-      end
-    end
-  end
+
 
   class << self
+    include Schema
+
     def create(attributes = nil)
       product = self.new(attributes)
       add_to_database product
@@ -81,6 +77,13 @@ class Udacidata
     end
 
     def update(*args)
+    end
+    def add_to_database *products
+      CSV.open file_path do |csv|
+        products.each do |product|
+          csv << [product.id, product.brand, product.name, product.price]
+        end
+      end
     end
   end
 end
