@@ -7,6 +7,10 @@ require 'csv'
 class Udacidata
   @@products = []
 
+  def initialize
+
+  end
+
   class << self
     include Schema
 
@@ -21,21 +25,23 @@ class Udacidata
     # @return [Product] an array of all products
     # Example
     def all
-      @@products
+      CSV.each do |variable|
+
+      end
     end
 
     # Find the first n product records, where n is number of records to return
     # @params n, optional number of records to return
     # @return
     def first(n=1)
-      all.take n
+      all.first(n)
     end
 
     # Returns the last n product records, where n is number of records to return
     # @params n, defaults to 1
     # @return [Product], of n length containing last items of @@products array
     def last(n=1)
-      all.last n
+      all.last(n)
     end
 
     # Find and return a product by id given.  Raise the ProductNotFoundError if not found.
@@ -63,6 +69,15 @@ class Udacidata
 
     def update(*args)
     end
+
+    def load_from_database
+        all.clear
+        CSV.foreach(file_path) do |row|
+          all << Product.new(id: row.id, brand: row.brand, 
+                                         name: row.name, price: row.price)
+        end
+    end
+
     def add_to_database *products
       CSV.open file_path, "ab" do |csv|
         products.each do |product|
