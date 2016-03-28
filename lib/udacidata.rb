@@ -31,14 +31,14 @@ class Udacidata
 
     # Find the first n product records, where n is number of records to return
     # @params n, optional number of records to return
-    # @return
+    # @return [Product], of n length containing last items of @@products array, or Product if n == 1
     def first(n=1)
       n > 1 ? all.first(n) : all.first
     end
 
     # Returns the last n product records, where n is number of records to return
     # @params n, defaults to 1
-    # @return [Product], of n length containing last items of @@products array
+    # @return [Product], of n length containing last items of @@products array, or Product if n == 1
     def last(n=1)
       n > 1 ? all.last(n) : all.last
     end
@@ -47,11 +47,11 @@ class Udacidata
     # @params id
     # @return Product, or nil if no product exists at the id
     def find(id)
-      product = all.select{ |product| product.id == id }
-      if !product
+      products = all.select{ |p| p.id == id }
+      if !products
         raise ProductNotFoundError, "Product not found"
       else
-        product
+        products.first
       end
     end
 
