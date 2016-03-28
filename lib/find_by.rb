@@ -17,14 +17,14 @@ class Module
 
   # Creates a finder method for basically any find_by_ + attribute method
   # @params An array of attributes
-  # @return Product(s) or empty array.
+  # @return an instance of that class if found
   def create_finder_methods(*attributes)
     attributes.each do |attr|
       attr_name = attr.to_s
       method_name = "find_by_#{attr_name}"
       method = %Q{
         def #{method_name}(identifier)
-          self.all.select{ |product| product.#{attr_name}.to_s == identifier.to_s }
+          self.all.select{ |product| product.#{attr_name}.to_s == identifier.to_s }.first
         end
       }
       # define it for the class, versus instance
