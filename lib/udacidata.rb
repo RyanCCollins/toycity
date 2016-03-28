@@ -59,8 +59,10 @@ class Udacidata
     # @params id
     # @return Product deleted or nil
     def destroy(id)
-      product = find(id)
-      all.delete product if product
+      product_to_delete = find id
+      unless product_to_delete == nil
+        remove_from_database product_to_delete
+      end
     end
 
     def where(*args)
@@ -85,8 +87,15 @@ class Udacidata
         end
       end
     end
-    def remove_from_database id
 
+    def remove_from_database product
+      new_products = all.delete{|p| p.id == product.id }
+      CSV.open file_path, "wb" do |csv|
+        csv << ["id", "brand", "product", "price"]
+        new_products.each do |p|
+          csv << [p.id, p.brand, p.product, p.price]
+        end
+      end
     end
   end
 end
