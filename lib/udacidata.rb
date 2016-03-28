@@ -25,23 +25,22 @@ class Udacidata
     # @return [Product] an array of all products
     # Example
     def all
-      CSV.each do |variable|
-
-      end
+      @@products = load_from_database
+      @@products
     end
 
     # Find the first n product records, where n is number of records to return
     # @params n, optional number of records to return
     # @return
     def first(n=1)
-      all.first(n)
+      n > 1 ? all.take(n) : all.first
     end
 
     # Returns the last n product records, where n is number of records to return
     # @params n, defaults to 1
     # @return [Product], of n length containing last items of @@products array
     def last(n=1)
-      all.last(n)
+      n > 1 ? all.drop(n) : all.last
     end
 
     # Find and return a product by id given.  Raise the ProductNotFoundError if not found.
@@ -52,7 +51,7 @@ class Udacidata
       if !product
         raise ProductNotFoundError, "Product not found"
       else
-        produt
+        product
       end
     end
 
@@ -71,11 +70,12 @@ class Udacidata
     end
 
     def load_from_database
-        all.clear
-        CSV.foreach(file_path) do |row|
-          all << Product.new(id: row.id, brand: row.brand, 
-                                         name: row.name, price: row.price)
+        products = []
+        CSV.foreach(file_path, {:headers => :first_row}) do |row|
+            products << Product.new(id: row[0], brand: row[1],
+                                                name: row[2], price: row[3])
         end
+        products
     end
 
     def add_to_database *products
