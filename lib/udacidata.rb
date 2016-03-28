@@ -33,14 +33,14 @@ class Udacidata
     # @params n, optional number of records to return
     # @return
     def first(n=1)
-      n > 1 ? all.take(n) : all.first
+      n > 1 ? all.first(n) : all.first
     end
 
     # Returns the last n product records, where n is number of records to return
     # @params n, defaults to 1
     # @return [Product], of n length containing last items of @@products array
     def last(n=1)
-      n > 1 ? all.drop(n) : all.last
+      n > 1 ? all.last(n) : all.last
     end
 
     # Find and return a product by id given.  Raise the ProductNotFoundError if not found.
