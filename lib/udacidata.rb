@@ -7,8 +7,6 @@ require 'csv'
 class Udacidata
   @@products = []
 
-
-
   class << self
     include Schema
 
@@ -16,6 +14,7 @@ class Udacidata
       product = self.new(attributes)
       add_to_database product
       @@products << product
+      product
     end
     # Returns all product
     # @return [Product] an array of all products
@@ -58,32 +57,20 @@ class Udacidata
       all.delete product if product
     end
 
-    # Define methods for find_by_#{attribute}
-    #
-    # Example
-    # # Return the Product where name matches an existing product, or nil if no match
-    # # @params name
-    # # @return Product, or nil if no product matches by name
-    # def find_by_name(name)
-    #
-    # end
-    ["name", "brand", "price", "id"].each do |method|
-      define_method "find_by_#{method}" do
-        #  all.find { |product| product.#{method} == method }
-      end
-    end
-
     def where(*args)
     end
 
     def update(*args)
     end
     def add_to_database *products
-      CSV.open file_path do |csv|
+      CSV.open file_path, "ab" do |csv|
         products.each do |product|
           csv << [product.id, product.brand, product.name, product.price]
         end
       end
+    end
+    def remove_from_database id
+
     end
   end
 end
