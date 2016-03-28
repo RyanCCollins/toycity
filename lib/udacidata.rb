@@ -16,6 +16,7 @@ class Udacidata
       @@products << product
       product
     end
+
     # Returns all product
     # @return [Product] an array of all products
     # Example
@@ -27,7 +28,7 @@ class Udacidata
     # @params n, optional number of records to return
     # @return
     def first(n=1)
-      all.first n
+      all.take n
     end
 
     # Returns the last n product records, where n is number of records to return
