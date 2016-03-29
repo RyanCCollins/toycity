@@ -68,10 +68,23 @@ class Udacidata
       end
     end
 
-    def where(*args)
+    def where(options = {})
+      selected_products = []
+      all.each do |product|
+        options.each do |key, value|
+          if product.send(key) == value
+            selected_products << product
+          end
+        end
+      end
+      selected_products
     end
 
-    def update(*args)
+    def update(options = {})
+      options.each do |key, value|
+        self.send("#{key}=value")
+      end
+      add_to_database all
     end
 
     def load_from_database
