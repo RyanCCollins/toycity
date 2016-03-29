@@ -88,7 +88,9 @@ class Udacidata
       selected_products = []
       all.each do |product|
         options.each do |key, value|
-          if product.send(key) == value
+          # Compares the value to_s, so this only works with exact
+            # price values and exact matches, case and spelling.
+          if product.send(key).to_s == value.to_s
             selected_products << product
           end
         end
@@ -96,6 +98,7 @@ class Udacidata
       selected_products
     end
 
+    
     # Loads all items from database sorted by ID
     # @return return an array of Product objects that contains all items
       # from DB sorted by ID.
