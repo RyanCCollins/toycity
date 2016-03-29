@@ -43,12 +43,12 @@ module Analyzable
     avg.round(2)
   end
 
-  def inventory_output *args
+  def inventory_output opts={}
     output = []
-    args.each do |a, b|
-      output << " - #{a}: #{b}"
+    opts.each do |key, value|
+      output << " - #{key}: #{value}"
     end
-    output.join('\n')
+    output.join("\n")
   end
 
   # print_report
@@ -69,13 +69,13 @@ module Analyzable
   # - Aerodynamic Marble Computer: 3
   # - Synergistic Wooden Chair: 2
   def print_report products
-    brands = count_by_brand products
-    products = count_by_name products
+    brands_hash = count_by_brand products
+    products_hash = count_by_name products
     output ||= "Average Price: $#{average_price(products)}\n"
-    output += "Inventory by Brand: "
-    output += inventory_output brands
-    output += "Inventory by Name: "
-    output += inventory_output products
+    output += "Inventory by Brand: \n"
+    output += inventory_output brands_hash
+    output += "\nInventory by Name: \n"
+    output += inventory_output products_hash
     output
   end
 end

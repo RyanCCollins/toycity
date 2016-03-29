@@ -16,18 +16,17 @@ class Udacidata
         self.send("#{key}=", value)
       end
     end
-    file_path = File.dirname(__FILE__) + "/data.csv"
-    CSV.open file_path, "ab" do |csv|
-      @@products.each do |product|
-        puts product.brand
-        csv << [product.id, product.brand, product.name, product.price]
-      end
-    end
+    self.class.destroy self.id
+    self.class.add_to_database self
+    self
   end
 
   class << self
     include Schema
 
+    # Creates a new product and saves to the db
+    # @return Product, freshly minted Product instance
+    # @params attributes hash, defaults to nil
     def create(attributes = nil)
       product = self.new(attributes)
       add_to_database product
@@ -37,7 +36,6 @@ class Udacidata
 
     # Returns all product
     # @return [Product] an array of all products
-    # Example
     def all
       @@products = load_from_database
       @@products
@@ -100,7 +98,8 @@ class Udacidata
             products << Product.new(id: row[0], brand: row[1],
                                                 name: row[2], price: row[3])
         end
-        products
+        # Insure that our products are sorted by ID when loaded
+        products.sort{ |a, b| a.id <=> b.id }
     end
 
     def add_to_database *products

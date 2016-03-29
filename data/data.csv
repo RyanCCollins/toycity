@@ -1,11 +1,11 @@
 id,brand,product,price
-1,Breitenberg LLC,Aerodynamic Bronze Computer,72.89
-2,Windler LLC,Rustic Marble Hat,39.81
-3,Hyatt Inc,Synergistic Linen Coat,27.07
-4,Wuckert Group,Lightweight Iron Knife,9.79
-5,"Connelly, Pacocha and Smitham",Ergonomic Marble Table,37.66
-6,"Hagenes, Nicolas and Kilback",Incredible Plastic Keyboard,44.95
-7,"Kuhlman, Thompson and Wilkinson",Durable Rubber Shoes,65.65
-8,Macejkovic-Emard,Incredible Linen Bench,43.47
-9,Larson-Runolfsson,Sleek Granite Clock,26.12
-10,"Kuhic, Berge and Lebsack",Intelligent Granite Plate,81.23
+1,Udacity,yoyo,10.0
+5,AllMy,yoyo,1.0
+6,Udacity,doll,5.99
+4,NewBrand,stuffed animal,2.09
+5,Udacity,yoyo,10.0
+6,Bouncy,ball,12.0
+7,MyCool,dollhouse,14.4
+8,MySoft,stuffed animal,2.09
+9,AllMy,yoyo,1.0
+10,Udacity,doll,5.99
