@@ -36,4 +36,4 @@ build/
 .rvmrc
 .DS_Store
 
-*.csv
+/data/*.csv
