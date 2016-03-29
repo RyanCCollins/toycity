@@ -12,7 +12,10 @@ bundle install
 ```
 from the root of directory.  
 
-Also note that there is documentation which was generated with the Yard gem located in the Docs directory.  Just open up the index.html file to read the docs.
+Also note that there is documentation that can be generated with the following command
+```
+yard doc
+```
 
 ## Deployment
 N/A
