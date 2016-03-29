@@ -59,11 +59,11 @@ class Udacidata
     # @params id
     # @return Product, or nil if no product exists at the id
     def find(id)
-      products = all.select{ |p| p.id == id }
-      if !products
-        raise ProductNotFoundError, "Product not found"
+      product = all.select{ |p| p.id == id }.first
+      if product == nil
+        raise ProductNotFoundError, "Product not found with id of #{id}"
       else
-        products.first
+        product
       end
     end
 

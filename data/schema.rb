@@ -3,7 +3,7 @@
 # and adds a header for the columns: id, brand, product, price
 
 module Schema
-
+  # Create a database for storing csv
   def db_create
     if !File.exist?(file_path)
       CSV.open(file_path, "wb") do |csv|
