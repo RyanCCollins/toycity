@@ -10,8 +10,8 @@ module Analyzable
     #Create an array of brands
     brands = products.map { |p| p.brand }
     # Inject a hash with the count for each particular brand
-    brands.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
-    brands
+    brands_hash = brands.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
+    brands_hash
   end
   # count_by_name(*names)
   # @params [Product]
@@ -28,8 +28,8 @@ module Analyzable
     #Create an array of brands
     names = products.map { |p| p.name }
     # Inject a hash with the count for each particular brand
-    names.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total}
-    names
+    name_hash = names.inject(Hash.new(0)) { |total, e| total[e] += 1 ;total }
+    name_hash
   end
 
   # average_price, takes an array of products and returns

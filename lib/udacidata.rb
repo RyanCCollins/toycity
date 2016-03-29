@@ -8,7 +8,21 @@ class Udacidata
   @@products = []
 
   def initialize
+  end
 
+  def update(options = {})
+    options.each do |key, value|
+      if self.respond_to? key
+        self.send("#{key}=", value)
+      end
+    end
+    file_path = File.dirname(__FILE__) + "/data.csv"
+    CSV.open file_path, "ab" do |csv|
+      @@products.each do |product|
+        puts product.brand
+        csv << [product.id, product.brand, product.name, product.price]
+      end
+    end
   end
 
   class << self
@@ -78,13 +92,6 @@ class Udacidata
         end
       end
       selected_products
-    end
-
-    def update(options = {})
-      options.each do |key, value|
-        self.send("#{key}=value")
-      end
-      add_to_database all
     end
 
     def load_from_database
