@@ -81,6 +81,9 @@ class Udacidata
       end
     end
 
+    # Update any item where the given hash returns an item
+    # @params option hash = {}
+    # @return return an array of Product objects that match a given brand or product name.
     def where(options = {})
       selected_products = []
       all.each do |product|
@@ -93,6 +96,9 @@ class Udacidata
       selected_products
     end
 
+    # Loads all items from database sorted by ID
+    # @return return an array of Product objects that contains all items
+      # from DB sorted by ID.
     def load_from_database
         products = []
         CSV.foreach(file_path, {:headers => :first_row}) do |row|
@@ -103,6 +109,8 @@ class Udacidata
         products.sort{ |a, b| a.id <=> b.id }
     end
 
+    # Add one or more items to the database
+    # @params one or more products in array format
     def add_to_database *products
       CSV.open file_path, "ab" do |csv|
         products.each do |product|
@@ -111,6 +119,8 @@ class Udacidata
       end
     end
 
+    # Remove an item from the db based on ID.
+    # @params id of item to remove
     def remove_from_database id
       table = CSV.table(file_path)
       table.delete_if do |row|

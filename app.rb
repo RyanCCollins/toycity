@@ -6,6 +6,8 @@ include Analyzable
 include Schema
 # Uncomment the following code once ALL your tests have passed!
 
+# Note, I think I improved the Schema by making it a module.
+# I hope that's okay :D
 Schema::db_create
 
 puts "-------------------"
