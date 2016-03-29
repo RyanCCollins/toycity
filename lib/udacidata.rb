@@ -7,9 +7,9 @@ require 'csv'
 class Udacidata
   @@products = []
 
-  def initialize
-  end
-
+  # Updates an existing product, saving it to the end of the DB
+  # @return self, a Product
+  # @params options hash
   def update(options = {})
     options.each do |key, value|
       if self.respond_to? key
@@ -22,6 +22,7 @@ class Udacidata
   end
 
   class << self
+    # Include the Schema module in order to get the file_path
     include Schema
 
     # Creates a new product and saves to the db
@@ -34,7 +35,7 @@ class Udacidata
       product
     end
 
-    # Returns all product
+    # Returns all products from DB.
     # @return [Product] an array of all products
     def all
       @@products = load_from_database
