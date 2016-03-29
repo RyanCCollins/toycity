@@ -87,7 +87,7 @@ class Udacidata
     end
 
     # Update any item where the given hash returns an item
-    # @param option hash = {}, containing search parameters for attributes defined in Product
+    # @param option = {}, containing search parameters for attributes defined in Product
     # @return [Product] return an array of Product objects that match a given brand or product name.
     def where(options = {})
       selected_products = []
