@@ -24,7 +24,7 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.json
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_param)
 
     respond_to do |format|
       if @product.save
@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
-      if @product.update(product_params)
+      if @product.update(product_param)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
@@ -64,11 +64,11 @@ class ProductsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
-      @product = Product.find(params[:id])
+      @product = Product.find(param[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def product_params
-      params.require(:product).permit(:title, :price, :stock, :brand)
+    def product_param
+      param.require(:product).permit(:title, :price, :stock, :brand)
     end
 end

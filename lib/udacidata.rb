@@ -8,16 +8,21 @@ class Udacidata
   @@products = []
 
   # Updates an existing product, saving it to the end of the DB
-  # @return self, a Product
-  # @params options hash
+  # @param options hash that contains key value pairs for updating a product
+  # @return self an instance of self with updated attributes
   def update(options = {})
+    old_id = self.id # Store the old id in case you are updating the ID value
+    needs_update = false
     options.each do |key, value|
       if self.respond_to? key
         self.send("#{key}=", value)
+        needs_update = true
       end
     end
-    self.class.destroy self.id
-    self.class.add_to_database self
+    if needs_update
+      self.class.destroy old_id
+      self.class.add_to_database self
+    end
     self
   end
 
@@ -26,8 +31,8 @@ class Udacidata
     include Schema
 
     # Creates a new product and saves to the db
+    # @param attributes hash defaults to nil
     # @return Product, freshly minted Product instance
-    # @params attributes hash, defaults to nil
     def create(attributes = nil)
       product = self.new(attributes)
       add_to_database product
@@ -43,22 +48,22 @@ class Udacidata
     end
 
     # Find the first n product records, where n is number of records to return
-    # @params n, optional number of records to return
-    # @return [Product], of n length containing last items of @@products array, or Product if n == 1
+    # @param n optional number of records to return. Defaults to 1
+    # @return Product, [Product] of n length containing first items of @@products array, or Product if n == 1
     def first(n=1)
       n > 1 ? all.first(n) : all.first
     end
 
     # Returns the last n product records, where n is number of records to return
-    # @params n, defaults to 1
-    # @return [Product], of n length containing last items of @@products array, or Product if n == 1
+    # @param n optional number of records to return. Defaults to 1
+    # @return Product, [Product] of n length containing last items of @@products array, or Product if n == 1
     def last(n=1)
       n > 1 ? all.last(n) : all.last
     end
 
     # Find and return a product by id given.  Raise the ProductNotFoundError if not found.
-    # @params id
-    # @return Product, or nil if no product exists at the id
+    # @param id of the record to find in the DB
+    # @return [Product, nil] A Product instance or nil if no product exists at the id
     def find(id)
       product = all.select{ |p| p.id == id }.first
       if product == nil
@@ -69,7 +74,7 @@ class Udacidata
     end
 
     # Remove the product with id given from the @@products array
-    # @params id
+    # @param id of item to find in the database
     # @return Product deleted or nil
     def destroy(id)
       product_to_delete = self.find id
@@ -82,8 +87,8 @@ class Udacidata
     end
 
     # Update any item where the given hash returns an item
-    # @params option hash = {}
-    # @return return an array of Product objects that match a given brand or product name.
+    # @param option hash = {}, containing search parameters for attributes defined in Product
+    # @return [Product] return an array of Product objects that match a given brand or product name.
     def where(options = {})
       selected_products = []
       all.each do |product|
@@ -98,9 +103,9 @@ class Udacidata
       selected_products
     end
 
-    
+
     # Loads all items from database sorted by ID
-    # @return return an array of Product objects that contains all items
+    # @return [Product, nil] return an array of Product objects that contains all items
       # from DB sorted by ID.
     def load_from_database
         products = []
@@ -113,7 +118,7 @@ class Udacidata
     end
 
     # Add one or more items to the database
-    # @params one or more products in array format
+    # @param *products one or more products in array format
     def add_to_database *products
       CSV.open file_path, "ab" do |csv|
         products.each do |product|
@@ -123,7 +128,7 @@ class Udacidata
     end
 
     # Remove an item from the db based on ID.
-    # @params id of item to remove
+    # @param id of item to remove
     def remove_from_database id
       table = CSV.table(file_path)
       table.delete_if do |row|

@@ -24,7 +24,7 @@ class TransactionsController < ApplicationController
   # POST /transactions
   # POST /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = Transaction.new(transaction_param)
 
     respond_to do |format|
       if @transaction.save
@@ -41,7 +41,7 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1.json
   def update
     respond_to do |format|
-      if @transaction.update(transaction_params)
+      if @transaction.update(transaction_param)
         format.html { redirect_to @transaction, notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
@@ -64,11 +64,11 @@ class TransactionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      @transaction = Transaction.find(param[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_params
-      params.require(:transaction).permit(:amount, :product_id, :customer_id)
+    def transaction_param
+      param.require(:transaction).permit(:amount, :product_id, :customer_id)
     end
 end

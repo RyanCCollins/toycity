@@ -1,8 +1,9 @@
 require_relative 'udacidata'
 
 class Product < Udacidata
-  attr_reader :id
-  attr_accessor :price, :brand, :name
+  # Note, the attr_accessors make it possible to call
+  # respond_to_missing in the find_by class and elsewhere
+  attr_accessor :id, :price, :brand, :name
 
   def initialize(opts={})
 
@@ -29,6 +30,7 @@ class Product < Udacidata
       @@count_class_instances = last_id || 0
     end
 
+    # Auto increments the counter for ids in order to get the next number.
     def auto_increment
       @@count_class_instances += 1
     end

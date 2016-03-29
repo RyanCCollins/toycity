@@ -1,6 +1,6 @@
 module Analyzable
   # count_by_brand(*brands)
-  # @params [Product]
+  # @param [Product]
   # @return { :brand_name => count }
   #
   # ====== Example
@@ -16,7 +16,7 @@ module Analyzable
 
   # Count by name takes products and returns a hash showing the Count
     # NOTE: This could be refactored using metaprogramming for co
-  # @params [Product]
+  # @param [Product]
   # @return { :product_name => count }
   #
   #======= Example
@@ -36,7 +36,7 @@ module Analyzable
 
   # average_price, takes an array of products and returns
   # the average price of all of the products rounded to two decimal points
-  # @params [Product]
+  # @param [Product]
   # @return average_price
   def average_price products
     # Create a new array with the prices to floart
@@ -46,7 +46,7 @@ module Analyzable
   end
 
   # Takes options hash and compiles output seperated by carriage returns
-  # @params options = {}
+  # @param options = {}
   # @return output: string formatted with carriage returns
   #
   def inventory_output opts={}
@@ -58,7 +58,7 @@ module Analyzable
   end
 
   # print_report compiles the output and returns in.  Make sure to print or put it.
-  # @params [Product]
+  # @param [Product]
   # @return Report: average price, counts by brand, and counts by product name.
   #
   #====== Example

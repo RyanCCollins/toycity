@@ -24,7 +24,7 @@ class BrandsController < ApplicationController
   # POST /brands
   # POST /brands.json
   def create
-    @brand = Brand.new(brand_params)
+    @brand = Brand.new(brand_param)
 
     respond_to do |format|
       if @brand.save
@@ -41,7 +41,7 @@ class BrandsController < ApplicationController
   # PATCH/PUT /brands/1.json
   def update
     respond_to do |format|
-      if @brand.update(brand_params)
+      if @brand.update(brand_param)
         format.html { redirect_to @brand, notice: 'Brand was successfully updated.' }
         format.json { render :show, status: :ok, location: @brand }
       else
@@ -64,11 +64,11 @@ class BrandsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_brand
-      @brand = Brand.find(params[:id])
+      @brand = Brand.find(param[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def brand_params
-      params.require(:brand).permit(:name, :product_id)
+    def brand_param
+      param.require(:brand).permit(:name, :product_id)
     end
 end
